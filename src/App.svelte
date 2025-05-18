@@ -20,16 +20,10 @@
 </div>
 
 <style>
-  @font-face {
-    font-family: "Poppins";
-    src: url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
-  }
-
   .container {
     display: flex;
     max-width: 1200px;
     margin: 0 auto;
-    font-family: "Poppins", sans-serif;
     flex-direction: column;
   }
   .main-content {

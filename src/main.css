@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+}
+
+:root {
+  --background: #222831;
+  --container: #31363f;
+  --sub-title: #76abae;
+  --text: #eeeeee;
+}
+
+html,
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--sub-title);
+}
+p,
+a {
+  color: var(--text);
+}
+
+#app {
+  font-family: "Poppins", sans-serif;
+}
