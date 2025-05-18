@@ -3,6 +3,7 @@
     type RouterItf,
     type RouteStateType,
   } from "../stores/RouteStore.svelte";
+
   let { router }: RouterItf = $props();
 
   let isOpen = $state<boolean>(false);
@@ -16,6 +17,7 @@
     e.preventDefault();
     const ele = e.target as HTMLElement;
     router.changeRoute(ele.innerText as RouteStateType);
+    toggleIsOpen();
   }
 </script>
 
@@ -56,7 +58,7 @@
   .dropdown-toggler > div {
     width: 30px;
     height: 3px;
-    background-color: black;
+    background-color: var(--sub-title);
     margin: 6px 0;
   }
   .top-nav {
