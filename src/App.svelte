@@ -1,6 +1,4 @@
 <script lang="ts">
-  import "./app.css";
-  import About from "./components/About.svelte";
   import Footer from "./components/Footer.svelte";
   import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
@@ -11,9 +9,7 @@
   <Nav {router} />
   <main class="main-content">
     {#if router.routeState === "Home"}
-      <Home />
-    {:else if router.routeState === "About"}
-      <About />
+      <Home {router} />
     {/if}
   </main>
   <Footer />

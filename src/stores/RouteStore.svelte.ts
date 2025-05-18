@@ -1,16 +1,14 @@
-export type RouteStateType = "Home" | "About";
-
 export interface RouterItf {
   router: {
-    routeState: RouteStateType;
-    changeRoute: (newRoute: RouteStateType) => void;
+    routeState: string;
+    changeRoute: (newRoute: string) => void;
   };
 }
 
 class Router {
-  routeState = $state<RouteStateType>("Home");
+  routeState = $state<string>("Home");
   constructor() {}
-  changeRoute(newRoute: RouteStateType) {
+  changeRoute(newRoute: string) {
     this.routeState = newRoute;
   }
 }

@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    type RouterItf,
-    type RouteStateType,
-  } from "../stores/RouteStore.svelte";
+  import { type RouterItf } from "../stores/RouteStore.svelte";
 
   let { router }: RouterItf = $props();
 
@@ -16,7 +13,7 @@
   ) {
     e.preventDefault();
     const ele = e.target as HTMLElement;
-    router.changeRoute(ele.innerText as RouteStateType);
+    router.changeRoute(ele.innerText);
     toggleIsOpen();
   }
 </script>
@@ -39,7 +36,12 @@
       <li>
         <a href="/" class="nav-link" onclick={navigateTo}>Home</a>
       </li>
-      <li><a href="/about" class="nav-link" onclick={navigateTo}>About</a></li>
+      <li>
+        <a href="/about" class="nav-link" onclick={navigateTo}>FAG</a>
+      </li>
+      <li>
+        <a href="/about" class="nav-link" onclick={navigateTo}>SISR</a>
+      </li>
     </ul>
   </nav>
 </header>
