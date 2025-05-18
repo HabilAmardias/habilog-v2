@@ -30,6 +30,9 @@ p,
 a {
   color: var(--text);
 }
+p {
+  text-align: justify;
+}
 
 #app {
   font-family: "Poppins", sans-serif;
