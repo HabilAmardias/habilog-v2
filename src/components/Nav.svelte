@@ -56,6 +56,7 @@
   .dropdown-toggler {
     background: none;
     border: none;
+    cursor: pointer;
   }
   .dropdown-toggler > div {
     width: 30px;

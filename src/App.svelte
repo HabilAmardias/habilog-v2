@@ -24,10 +24,14 @@
     max-width: 1200px;
     margin: 0 auto;
     flex-direction: column;
+    height: 100%;
+    gap: 1rem;
   }
   .main-content {
     display: flex;
     flex-direction: column;
     margin-inline: 1rem;
+    height: 100%;
+    gap: 1rem;
   }
 </style>
