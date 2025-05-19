@@ -6,9 +6,13 @@ export interface RouterItf {
 }
 
 class Router {
-  routeState = $state<string>("Home");
-  constructor() {}
+  routeState = $state<string>("")
+  constructor() {
+    const route = localStorage.getItem("route")
+    this.routeState = route? route : "Home"
+  }
   changeRoute(newRoute: string) {
+    localStorage.setItem("route", newRoute)
     this.routeState = newRoute;
   }
 }

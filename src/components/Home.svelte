@@ -74,6 +74,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 100%;
   }
   .projects-section > h2 {
     text-align: center;
@@ -85,6 +86,11 @@
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     gap: 4%;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .projects-list::-webkit-scrollbar {
+    display: none;
   }
   .projects-list > li {
     list-style-type: none;
@@ -114,7 +120,7 @@
       grid-template-columns: repeat(2, 1fr);
     }
     .project-container {
-      width: 80%;
+      width: 60%;
       margin: 0 auto;
     }
   }

@@ -32,8 +32,25 @@ a {
 }
 p {
   text-align: justify;
+  margin: 0;
 }
 
 #app {
   font-family: "Poppins", sans-serif;
+  height: 100dvh;
+}
+
+@media only screen and (min-width: 768px) {
+  p,
+  button,
+  a,
+  label {
+    font-size: 1.25rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
 }
