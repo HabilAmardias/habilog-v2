@@ -3,6 +3,7 @@
   import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
   import router from "./stores/RouteStore.svelte";
+  import SISR from "./components/SISR.svelte";
 </script>
 
 <div class="container">
@@ -10,6 +11,8 @@
   <main class="main-content">
     {#if router.routeState === "Home"}
       <Home {router} />
+    {:else if router.routeState === "SISR"}
+      <SISR />
     {/if}
   </main>
   <Footer />
