@@ -5,6 +5,7 @@
   import router from "./stores/RouteStore.svelte";
   import SISR from "./components/SISR.svelte";
   import ErrorPage from "./components/ErrorPage.svelte";
+  import Fag from "./components/FAG.svelte";
 </script>
 
 <div class="container">
@@ -14,6 +15,8 @@
       <Home {router} />
     {:else if router.routeState === "SISR"}
       <SISR />
+    {:else if router.routeState === "FAG"}
+      <Fag />
     {:else}
       <ErrorPage {router} message="Page Not Found" />
     {/if}

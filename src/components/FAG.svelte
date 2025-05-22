@@ -2,10 +2,15 @@
   import Loading from "./Loading.svelte";
   import InlineError from "./InlineError.svelte";
 
+  interface FAGResponse {
+    message: string;
+    data: { probability: number; age_range: string };
+  }
+
   let files = $state<FileList | null>(null);
   let isError = $state<string | null>(null);
-  let downloadURL = $state<string | null>(null);
   let isLoading = $state<boolean>(false);
+  let result = $state<{ probability: number; age_range: string } | null>(null);
 
   $effect(() => {
     const imgTypes = ["image/png", "image/jpeg", "image/bmp"];
@@ -27,7 +32,7 @@
     e.preventDefault();
 
     const file = files[0];
-    const url = `${import.meta.env.VITE_BACKEND_URL}/sisr/upload`;
+    const url = `${import.meta.env.VITE_BACKEND_URL}/fag/upload`;
     const formData = new FormData();
     formData.append("file", file);
 
@@ -39,29 +44,35 @@
       const data = await res.json();
       throw new Error(data.detail);
     }
-    const blob = await res.blob();
-    const downURL = window.URL.createObjectURL(blob);
-    return downURL;
+    const response: FAGResponse = await res.json();
+    return response;
   }
 </script>
 
 <section class="content-section">
-  <h2>Image Upscaler</h2>
+  <h2>Face Age Detector</h2>
   <p>
-    This project implements a deep learning model based on
-    <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image super-resolution
-    (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale,
-    your uploaded image will not be uploaded to database.
+    This project implement deep learning model (MobileNetV3 from
+    <a
+      href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
+      >PyTorch</a
+    >) for Face Age Detection, fine-tuned on
+    <a href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>. You can
+    upload your face image or you can take a photo with camera (if you allow
+    it).
   </p>
 </section>
-{#if !downloadURL}
+{#if !result}
   <section class="form-section">
     <form
       onsubmit={(e) => {
         isLoading = true;
         handleSubmit(e)
           .then((val) => {
-            downloadURL = val;
+            result = {
+              probability: val.data.probability,
+              age_range: val.data.age_range,
+            };
           })
           .catch((err: Error) => {
             console.error(err);
@@ -102,15 +113,12 @@
   </section>
 {/if}
 
-{#if downloadURL}
-  <section class="download-section">
-    <div class="download-container">
-      <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
-      <a
-        download={`upscaled_img.png`}
-        onclick={() => (downloadURL = null)}
-        href={downloadURL}>Download your upscaled image here</a
-      >
+{#if result}
+  <section class="result-section">
+    <div class="result-container">
+      <p>
+        {Math.round(result.probability * 100)}% chance that you are {result.age_range}
+      </p>
     </div>
   </section>
 {/if}
@@ -122,26 +130,17 @@
     align-items: center;
     flex: 1 1 auto;
   }
-  .download-section {
+  .result-section {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
   }
-  .download-container {
+  .result-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-  }
-  .download-container > a {
-    text-decoration: none;
-    display: block;
-    background-color: var(--container);
-    padding: 0.5rem;
-    border: 1px solid var(--container);
-    border-radius: 0.5rem;
-    text-align: center;
   }
   .content-section {
     display: flex;
