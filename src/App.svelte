@@ -4,6 +4,7 @@
   import Nav from "./components/Nav.svelte";
   import router from "./stores/RouteStore.svelte";
   import SISR from "./components/SISR.svelte";
+  import ErrorPage from "./components/ErrorPage.svelte";
 </script>
 
 <div class="container">
@@ -13,6 +14,8 @@
       <Home {router} />
     {:else if router.routeState === "SISR"}
       <SISR />
+    {:else}
+      <ErrorPage {router} message="Page Not Found" />
     {/if}
   </main>
   <Footer />
@@ -32,6 +35,6 @@
     flex-direction: column;
     margin-inline: 1rem;
     height: 100%;
-    gap: 1rem;
+    gap: 2rem;
   }
 </style>

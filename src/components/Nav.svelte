@@ -1,7 +1,7 @@
 <script lang="ts">
   import { type RouterItf } from "../stores/RouteStore.svelte";
 
-  let { router }: RouterItf = $props();
+  let { router }: { router: RouterItf } = $props();
 
   let isOpen = $state<boolean>(false);
   function toggleIsOpen() {

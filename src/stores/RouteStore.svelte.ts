@@ -1,18 +1,16 @@
 export interface RouterItf {
-  router: {
-    routeState: string;
-    changeRoute: (newRoute: string) => void;
-  };
+  routeState: string;
+  changeRoute: (newRoute: string) => void;
 }
 
 class Router {
-  routeState = $state<string>("")
+  routeState = $state<string>("");
   constructor() {
-    const route = localStorage.getItem("route")
-    this.routeState = route? route : "Home"
+    const route = localStorage.getItem("route");
+    this.routeState = route ? route : "Home";
   }
   changeRoute(newRoute: string) {
-    localStorage.setItem("route", newRoute)
+    localStorage.setItem("route", newRoute);
     this.routeState = newRoute;
   }
 }
