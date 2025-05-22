@@ -106,6 +106,12 @@
 {/if}
 
 <style>
+  .form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 auto;
+  }
   .download-section {
     display: flex;
     justify-content: center;
@@ -143,13 +149,20 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    width: 80%;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .button-container > button {
     color: var(--sub-title);
     background-color: var(--container);
-    padding: 0.5rem;
+    padding-block: 0.5rem;
     border: 1px solid var(--container);
     border-radius: 0.5rem;
+    width: 50%;
   }
 
   .button-container > button:hover {
@@ -163,7 +176,7 @@
     /* border: 1px solid ; */
     border-radius: 0.5rem;
     padding: 0.5rem;
-    background-color: var(--container);
     color: var(--text);
+    border: 1px dashed var(--text);
   }
 </style>

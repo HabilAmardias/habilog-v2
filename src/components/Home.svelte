@@ -1,18 +1,16 @@
 <script lang="ts">
   import type { RouterItf } from "../stores/RouteStore.svelte";
 
-  let { router }: RouterItf = $props();
+  let { router }: { router: RouterItf } = $props();
 </script>
 
 <section class="content-section">
   <h2>Hello</h2>
   <p>
     Welcome to my page. First I want to introduce myself. My name is Muhammad
-    Habil Amardias. I was born on December 9, 2002. I'm a graduate of the The
-    mathematics program at the University of Indonesia, a little bit of trivia,
-    I falls into the category of people who like anime, often called a "weaboo"
-    (my first waifu is Elysia from Honkai Impact 3). I have an interest in
-    machine learning, AI, and programming.
+    Habil Amardias. I falls into the category of people who like anime, often
+    called a "weaboo" (my first waifu is Elysia from Honkai Impact 3). I have an
+    interest in machine learning, AI, and programming.
   </p>
 </section>
 <section class="content-section">
@@ -44,7 +42,7 @@
           >) for Face Age Detection, fine-tuned on
           <a href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
           You can upload your face image or you can take a photo with camera (if
-          you allow it). Your uploaded image will not be uploaded to database.
+          you allow it).
         </p>
       </button>
     </li>
@@ -59,8 +57,7 @@
         <p>
           This project implements a deep learning model based on
           <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image super-resolution
-          (4x upscale). You can upload image you want to upscale, your uploaded image
-          will not be uploaded to database.
+          (4x upscale). You can upload image you want to upscale.
         </p>
       </button>
     </li>
@@ -120,8 +117,9 @@
       grid-template-columns: repeat(2, 1fr);
     }
     .project-container {
-      width: 60%;
+      flex: 0 1 auto;
       margin: 0 auto;
+      width: 60%;
     }
   }
 </style>
