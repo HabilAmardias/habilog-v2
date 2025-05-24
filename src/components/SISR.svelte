@@ -45,17 +45,8 @@
   }
 </script>
 
-<section class="content-section">
-  <h2>Image Upscaler</h2>
-  <p>
-    This project implements a deep learning model based on
-    <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image super-resolution
-    (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale,
-    your uploaded image will not be uploaded to database.
-  </p>
-</section>
 {#if !downloadURL}
-  <section class="form-section">
+  <div class="form">
     <form
       onsubmit={(e) => {
         isLoading = true;
@@ -99,11 +90,11 @@
         </button>
       </div>
     </form>
-  </section>
+  </div>
 {/if}
 
 {#if downloadURL}
-  <section class="download-section">
+  <div class="download-section">
     <div class="download-container">
       <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
       <a
@@ -112,11 +103,11 @@
         href={downloadURL}>Download your upscaled image here</a
       >
     </div>
-  </section>
+  </div>
 {/if}
 
 <style>
-  .form-section {
+  .form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,23 +134,16 @@
     border-radius: 0.5rem;
     text-align: center;
   }
-  .content-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
 
   #imageFile {
     display: none;
   }
-  .form-section > form {
+  .form > form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    width: 80%;
+    /* width: 80%; */
   }
   .button-container {
     display: flex;
@@ -188,5 +172,6 @@
     padding: 0.5rem;
     color: var(--text);
     border: 1px dashed var(--text);
+    font-size: small;
   }
 </style>
