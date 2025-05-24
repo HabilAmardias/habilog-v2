@@ -45,55 +45,56 @@
   }
 </script>
 
-<section class="content-section">
-  <h2>Image Upscaler</h2>
-  <p>
-    This project implements a deep learning model based on
-    <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image super-resolution
-    (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale,
-    your uploaded image will not be uploaded to database.
-  </p>
-</section>
-<section class="form-section">
-  <form
-    onsubmit={(e) => {
-      isLoading = true;
-      handleSubmit(e)
-        .then((val) => {
-          downloadURL = val;
-        })
-        .catch((err: Error) => {
-          console.error(err);
-          isError = err.message;
-        })
-        .finally(() => {
-          isLoading = false;
-        });
-    }}
-    action=""
-    method="POST"
-  >
-    <div class="image-upload-container">
-      <label class="label" for="imageFile">Upload your image here</label>
-      <input bind:files type="file" name="imageFile" id="imageFile" required />
-    </div>
-    {#if isError}
-      <InlineError message={isError} />
-    {/if}
-    <div class="button-container">
-      <button disabled={isError || isLoading ? true : false} type="submit">
-        {#if isLoading}
-          <Loading />
-        {:else}
-          Upload
-        {/if}
-      </button>
-    </div>
-  </form>
-</section>
+{#if !downloadURL}
+  <div class="form">
+    <form
+      onsubmit={(e) => {
+        isLoading = true;
+        handleSubmit(e)
+          .then((val) => {
+            downloadURL = val;
+          })
+          .catch((err: Error) => {
+            console.error(err);
+            isError = err.message;
+          })
+          .finally(() => {
+            isLoading = false;
+          });
+      }}
+      action=""
+      method="POST"
+    >
+      <div class="image-upload-container">
+        <label class="label" for="imageFile"
+          >{files ? files[0].name : "Upload your image here"}</label
+        >
+        <input
+          bind:files
+          type="file"
+          name="imageFile"
+          id="imageFile"
+          required
+        />
+      </div>
+      {#if isError}
+        <InlineError message={isError} />
+      {/if}
+      <div class="button-container">
+        <button disabled={isError || isLoading ? true : false} type="submit">
+          {#if isLoading}
+            <Loading />
+          {:else}
+            Upload
+          {/if}
+        </button>
+      </div>
+    </form>
+  </div>
+{/if}
 
 {#if downloadURL}
-  <section class="download-section">
+  <div class="download-section">
     <div class="download-container">
       <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
       <a
@@ -102,11 +103,11 @@
         href={downloadURL}>Download your upscaled image here</a
       >
     </div>
-  </section>
+  </div>
 {/if}
 
 <style>
-  .form-section {
+  .form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,23 +134,16 @@
     border-radius: 0.5rem;
     text-align: center;
   }
-  .content-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
 
   #imageFile {
     display: none;
   }
-  .form-section > form {
+  .form > form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    width: 80%;
+    /* width: 80%; */
   }
   .button-container {
     display: flex;
@@ -178,5 +172,6 @@
     padding: 0.5rem;
     color: var(--text);
     border: 1px dashed var(--text);
+    font-size: small;
   }
 </style>

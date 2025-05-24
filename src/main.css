@@ -4,7 +4,7 @@
 }
 
 :root {
-  --background: #222831;
+  --app-background: #222831;
   --container: #31363f;
   --sub-title: #76abae;
   --text: #eeeeee;
@@ -17,7 +17,7 @@ body {
 }
 
 body {
-  background-color: var(--background);
+  background-color: var(--app-background);
 }
 
 h1,
@@ -38,15 +38,10 @@ p {
 #app {
   font-family: "Poppins", sans-serif;
   height: 100dvh;
+  /* margin: 1rem; */
 }
 
 @media only screen and (min-width: 768px) {
-  p,
-  button,
-  a,
-  label {
-    font-size: 1.25rem;
-  }
   h2 {
     font-size: 2rem;
   }

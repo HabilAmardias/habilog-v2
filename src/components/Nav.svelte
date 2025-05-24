@@ -1,9 +1,11 @@
 <script lang="ts">
   import { type RouterItf } from "../stores/RouteStore.svelte";
+  import * as Collapsible from "$lib/components/ui/collapsible";
 
   let { router }: { router: RouterItf } = $props();
 
   let isOpen = $state<boolean>(false);
+
   function toggleIsOpen() {
     isOpen = !isOpen;
   }
@@ -20,29 +22,19 @@
 
 <header class="app-header">
   <nav class="top-nav">
-    <div class="nav-addon">
-      <h2>Habilog</h2>
-      <button
-        aria-label="dropdown"
-        onclick={toggleIsOpen}
-        class="dropdown-toggler"
-      >
-        <div></div>
-        <div></div>
-        <div></div>
-      </button>
-    </div>
-    <ul class="nav-menu {isOpen ? '' : 'hidden'}">
-      <li>
+    <Collapsible.Root>
+      <div class="nav-addon">
+        <h2>Habilog</h2>
+        <Collapsible.Trigger>
+          <div class="burger"></div>
+          <div class="burger"></div>
+          <div class="burger"></div>
+        </Collapsible.Trigger>
+      </div>
+      <Collapsible.Content>
         <a href="/" class="nav-link" onclick={navigateTo}>Home</a>
-      </li>
-      <li>
-        <a href="/about" class="nav-link" onclick={navigateTo}>FAG</a>
-      </li>
-      <li>
-        <a href="/about" class="nav-link" onclick={navigateTo}>SISR</a>
-      </li>
-    </ul>
+      </Collapsible.Content>
+    </Collapsible.Root>
   </nav>
 </header>
 
@@ -51,14 +43,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
-
-  .dropdown-toggler {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  .dropdown-toggler > div {
+  .burger {
     width: 30px;
     height: 3px;
     background-color: var(--sub-title);
@@ -71,19 +58,13 @@
   }
   .app-header {
     width: 100%;
-  }
-  .nav-menu {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
+    margin-top: 1rem;
   }
   .nav-link {
     text-decoration: none;
+    color: var(--text);
   }
-  .hidden {
-    display: none;
+  .nav-link:hover {
+    color: var(--sub-title);
   }
 </style>

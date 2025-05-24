@@ -1,21 +1,25 @@
 <script lang="ts">
+  import "./app.css";
+  import "./main.css";
   import Footer from "./components/Footer.svelte";
   import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
   import router from "./stores/RouteStore.svelte";
-  import SISR from "./components/SISR.svelte";
   import ErrorPage from "./components/ErrorPage.svelte";
+  import CarouselNavigator from "./stores/CarouselNavStore.svelte";
+
+  function navigateToHome() {
+    router.changeRoute("Home");
+  }
 </script>
 
 <div class="container">
   <Nav {router} />
   <main class="main-content">
     {#if router.routeState === "Home"}
-      <Home {router} />
-    {:else if router.routeState === "SISR"}
-      <SISR />
+      <Home {CarouselNavigator} />
     {:else}
-      <ErrorPage {router} message="Page Not Found" />
+      <ErrorPage navigate={navigateToHome} message="Page Not Found" />
     {/if}
   </main>
   <Footer />

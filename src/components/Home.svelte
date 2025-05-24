@@ -1,125 +1,84 @@
 <script lang="ts">
-  import type { RouterItf } from "../stores/RouteStore.svelte";
+  import * as Carousel from "$lib/components/ui/carousel/index.ts";
+  import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
+  import ErrorPage from "./ErrorPage.svelte";
+  import Fag from "./FAG.svelte";
+  import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
+  import Sisr from "./SISR.svelte";
 
-  let { router }: { router: RouterItf } = $props();
+  let { CarouselNavigator }: { CarouselNavigator: CarouselNavItf } = $props();
+
+  function navigateToHome() {
+    CarouselNavigator.changeState("SISR");
+  }
 </script>
 
-<section class="content-section">
-  <h2>Hello</h2>
-  <p>
-    Welcome to my page. First I want to introduce myself. My name is Muhammad
-    Habil Amardias. I falls into the category of people who like anime, often
-    called a "weaboo" (my first waifu is Elysia from Honkai Impact 3). I have an
-    interest in machine learning, AI, and programming.
-  </p>
-</section>
-<section class="content-section">
-  <h2>About This Page</h2>
-  <p>
-    Okay let's stop talking about me, some of you might be wondering what is
-    this page about? On this page, I'll showcase my projects, which can be
-    anything, like for example a computer vision model showcase or maybe data
-    analysis, et cetera. Uhm anyway you can try on things that I have built by
-    click one of these option below
-  </p>
-</section>
 <section class="projects-section">
   <h2>My Projects</h2>
-  <ul class="projects-list">
-    <li>
-      <button
-        class="project-container"
-        onclick={() => {
-          router.changeRoute("FAG");
-        }}
-      >
-        <h3>Face Age Detector</h3>
-        <p>
-          This project implement deep learning model (MobileNetV3 from
-          <a
-            href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
-            >PyTorch</a
-          >) for Face Age Detection, fine-tuned on
-          <a href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
-          You can upload your face image or you can take a photo with camera (if
-          you allow it).
-        </p>
-      </button>
-    </li>
-    <li>
-      <button
-        class="project-container"
-        onclick={() => {
-          router.changeRoute("SISR");
-        }}
-      >
-        <h3>Image Upscaler</h3>
-        <p>
-          This project implements a deep learning model based on
-          <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image super-resolution
-          (4x upscale). You can upload image you want to upscale.
-        </p>
-      </button>
-    </li>
-  </ul>
+  <Carousel.Root>
+    <Carousel.Content>
+      <Carousel.Item>
+        <ProjectCarouselItem
+          {CarouselNavigator}
+          item="FAG"
+          title="Face Age Detector"
+          description={`<p>
+            This project implement deep learning model (MobileNetV3 from
+            <a
+              href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
+              >PyTorch</a
+            >) for Face Age Detection, fine-tuned on
+            <a href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
+            You can upload your face image or you can take a photo with camera
+            (if you allow it). Your uploaded image will not be uploaded to database
+          </p>`}
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <ProjectCarouselItem
+          {CarouselNavigator}
+          item="SISR"
+          title="Image Upscaler"
+          description={`<p>
+            This project implements a deep learning model based on
+            <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image
+            super-resolution (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale, your uploaded image will not be uploaded to database.
+          </p>`}
+        />
+      </Carousel.Item>
+    </Carousel.Content>
+    <Carousel.Previous />
+    <Carousel.Next />
+  </Carousel.Root>
+</section>
+<section class="content-section">
+  {#if CarouselNavigator.navState === "SISR"}
+    <Sisr />
+  {:else if CarouselNavigator.navState === "FAG"}
+    <Fag />
+  {:else}
+    <ErrorPage message="Not Found" navigate={navigateToHome} />
+  {/if}
 </section>
 
 <style>
-  .content-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-  }
   .projects-section > h2 {
     text-align: center;
   }
-  .projects-list {
-    width: 100%;
-    padding: 0;
-    display: flex;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    gap: 4%;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  .projects-list::-webkit-scrollbar {
-    display: none;
-  }
-  .projects-list > li {
-    list-style-type: none;
-    flex: 0 0 100%;
-  }
 
-  .project-container {
+  .projects-section {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    background-color: var(--container);
-    border: 1px solid var(--container);
-    border-radius: 0.5rem;
-    padding: 1rem;
+    flex-direction: column;
     gap: 1rem;
-    width: 100%;
-    cursor: pointer;
-    height: 100%;
   }
-  .project-container > h3 {
-    margin: 0;
-    text-align: center;
-  }
-  @media only screen and (min-width: 768px) {
-    .content-section {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .project-container {
-      flex: 0 1 auto;
-      margin: 0 auto;
-      width: 60%;
-    }
+  .content-section {
+    display: flex;
+    flex: 0 1 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 </style>
