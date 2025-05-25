@@ -1,11 +1,6 @@
 <script lang="ts">
   import FagCamera from "./FAGCamera.svelte";
   import FagUpload from "./FAGUpload.svelte";
-
-  interface FAGResponse {
-    message: string;
-    data: { probability: number; age_range: string };
-  }
   let result = $state<{ probability: number; age_range: string } | null>(null);
   let uploadOption = $state<string>("upload");
 </script>
@@ -45,6 +40,14 @@
         {Math.round(result.probability * 100)}% chance that you are {result.age_range}
       </p>
     </div>
+    <div class="button-container">
+      <button
+        type="button"
+        onclick={() => {
+          result = null;
+        }}>Upload other image</button
+      >
+    </div>
   </section>
 {/if}
 
@@ -79,5 +82,23 @@
     align-items: center;
     gap: 1rem;
     /* width: 80%; */
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .button-container > button {
+    color: var(--sub-title);
+    background-color: var(--container);
+    padding-block: 0.5rem;
+    border: 1px solid var(--container);
+    border-radius: 0.5rem;
+    width: 50%;
+  }
+
+  .button-container > button:hover {
+    color: var(--container);
+    background-color: var(--sub-title);
   }
 </style>
