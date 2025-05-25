@@ -7,6 +7,7 @@
   import router from "./stores/RouteStore.svelte";
   import ErrorPage from "./components/ErrorPage.svelte";
   import CarouselNavigator from "./stores/CarouselNavStore.svelte";
+  import About from "./components/About.svelte";
 
   function navigateToHome() {
     router.changeRoute("Home");
@@ -18,6 +19,8 @@
   <main class="main-content">
     {#if router.routeState === "Home"}
       <Home {CarouselNavigator} />
+    {:else if router.routeState === "About"}
+      <About />
     {:else}
       <ErrorPage navigate={navigateToHome} message="Page Not Found" />
     {/if}
@@ -40,5 +43,11 @@
     margin-inline: 1rem;
     height: 100%;
     gap: 2rem;
+    /* overflow-y: scroll; */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .main-content::-webkit-scrollbar {
+    display: none;
   }
 </style>

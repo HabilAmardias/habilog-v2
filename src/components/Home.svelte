@@ -72,6 +72,8 @@
     align-items: center;
     flex-direction: column;
     gap: 1rem;
+    width: 80%;
+    margin: 0 auto;
   }
   .content-section {
     display: flex;
