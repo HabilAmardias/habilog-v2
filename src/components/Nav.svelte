@@ -28,12 +28,19 @@
       <div class="nav-addon">
         <h2>Habilog</h2>
         <div class="socmed-container">
-          <a href="https://github.com/HabilAmardias" class="nav-link">
+          <a
+            href="https://github.com/HabilAmardias"
+            class="nav-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <GithubIcon />
           </a>
           <a
             class="nav-link"
             href="https://www.linkedin.com/in/muhammad-habil-amardias/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <LinkedinIcon />
           </a>
