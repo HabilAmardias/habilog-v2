@@ -11,6 +11,8 @@
     detail you can see my resume <a
       download="resume.pdf"
       class="nav-link"
+      target="_blank"
+      rel="noopener noreferrer"
       href={MyFile}>attached here</a
     >.
   </p>
@@ -26,12 +28,26 @@
     limitations, and mostly I'd do it for fun or if I have spare time.
   </p>
   <p>
-    This page is powered by <a href="https://svelte.dev/" class="nav-link"
-      >Svelte</a
+    This page is powered by <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://svelte.dev/"
+      class="nav-link">Svelte</a
     >
     and the backend is powered by
-    <a href="https://www.python.org/" class="nav-link">Python</a> with
-    <a href="https://fastapi.tiangolo.com/" class="nav-link">FastAPI</a>.
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.python.org/"
+      class="nav-link">Python</a
+    >
+    with
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://fastapi.tiangolo.com/"
+      class="nav-link">FastAPI</a
+    >.
   </p>
 </section>
 <section class="content-section">

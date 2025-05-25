@@ -24,11 +24,11 @@
           title="Face Age Detector"
           description={`<p>
             This project implement deep learning model (MobileNetV3 from
-            <a
+            <a target="_blank" rel="noopener noreferrer"
               href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
               >PyTorch</a
             >) for Face Age Detection, fine-tuned on
-            <a href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
+            <a target="_blank" rel="noopener noreferrer" href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
             You can upload your face image or you can take a photo with camera
             (if you allow it). Your uploaded image will not be uploaded to database
           </p>`}
@@ -41,7 +41,7 @@
           title="Image Upscaler"
           description={`<p>
             This project implements a deep learning model based on
-            <a href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image
+            <a target="_blank" rel="noopener noreferrer" href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image
             super-resolution (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale, your uploaded image will not be uploaded to database.
           </p>`}
         />
