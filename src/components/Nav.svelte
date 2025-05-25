@@ -1,6 +1,8 @@
 <script lang="ts">
   import { type RouterItf } from "../stores/RouteStore.svelte";
   import * as Collapsible from "$lib/components/ui/collapsible";
+  import GithubIcon from "./GithubIcon.svelte";
+  import LinkedinIcon from "./LinkedinIcon.svelte";
 
   let { router }: { router: RouterItf } = $props();
 
@@ -25,6 +27,17 @@
     <Collapsible.Root>
       <div class="nav-addon">
         <h2>Habilog</h2>
+        <div class="socmed-container">
+          <a href="https://github.com/HabilAmardias" class="nav-link">
+            <GithubIcon />
+          </a>
+          <a
+            class="nav-link"
+            href="https://www.linkedin.com/in/muhammad-habil-amardias/"
+          >
+            <LinkedinIcon />
+          </a>
+        </div>
         <Collapsible.Trigger>
           <div class="burger"></div>
           <div class="burger"></div>
@@ -34,6 +47,10 @@
       <Collapsible.Content>
         <a href="/" class="nav-link" onclick={navigateTo}>Home</a>
       </Collapsible.Content>
+      <Collapsible.Content>
+        <a href="/" class="nav-link" onclick={navigateTo}>About</a>
+      </Collapsible.Content>
+      <Collapsible.Content></Collapsible.Content>
     </Collapsible.Root>
   </nav>
 </header>
@@ -66,5 +83,10 @@
   }
   .nav-link:hover {
     color: var(--sub-title);
+  }
+  .socmed-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 </style>

@@ -69,6 +69,8 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    flex-direction: column;
+    gap: 1rem;
   }
   .result-container {
     display: flex;
@@ -81,7 +83,6 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    /* width: 80%; */
   }
   .button-container {
     display: flex;
@@ -94,7 +95,8 @@
     padding-block: 0.5rem;
     border: 1px solid var(--container);
     border-radius: 0.5rem;
-    width: 50%;
+    width: fit-content;
+    padding: 0.5rem;
   }
 
   .button-container > button:hover {
