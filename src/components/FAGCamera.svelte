@@ -5,8 +5,13 @@
 
   let {
     setResult,
-  }: { setResult: (data: { probability: number; age_range: string }) => void } =
-    $props();
+  }: {
+    setResult: (data: {
+      probability: number;
+      age_range: string;
+      url: string;
+    }) => void;
+  } = $props();
 
   interface FAGResponse {
     message: string;
@@ -17,6 +22,7 @@
   let isLoading = $state<boolean>(false);
   let videoSource = $state<HTMLVideoElement | null>(null);
   let canvas = $state<HTMLCanvasElement | null>(null);
+  let downUrl = $state<string>("");
   onMount(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -36,11 +42,19 @@
     e: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }
   ) {
     e.preventDefault();
+
+    if (canvas && videoSource) {
+      canvas.width = videoSource.videoWidth;
+      canvas.height = videoSource.videoHeight;
+    }
+
     const context = canvas?.getContext("2d");
     context?.drawImage(
       videoSource as CanvasImageSource,
-      videoSource!.width,
-      videoSource!.height
+      0,
+      0,
+      canvas!.width,
+      canvas!.height
     );
 
     const formData = new FormData();
@@ -52,6 +66,7 @@
       }, "image/png");
     });
     if (!blob) throw new Error("Failed to capture image from webcam");
+    downUrl = window.URL.createObjectURL(blob);
     formData.append("file", blob);
 
     const url = `${import.meta.env.VITE_BACKEND_URL}/fag/upload`;
@@ -70,9 +85,7 @@
   }
 </script>
 
-<video height="320" width="320" bind:this={videoSource}
-  ><track kind="captions" /></video
->
+<video bind:this={videoSource}><track kind="captions" /></video>
 <canvas bind:this={canvas} style="display: none;"></canvas>
 {#if isError}
   <InlineError message={isError} />
@@ -84,7 +97,11 @@
       isError = null;
       handleWebcam(e)
         .then((val) => {
-          setResult(val.data);
+          setResult({
+            age_range: val.data.age_range,
+            probability: val.data.probability,
+            url: downUrl,
+          });
         })
         .catch((err: Error) => {
           console.error(err);

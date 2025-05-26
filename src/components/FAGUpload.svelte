@@ -9,12 +9,18 @@
 
   let {
     setResult,
-  }: { setResult: (data: { probability: number; age_range: string }) => void } =
-    $props();
+  }: {
+    setResult: (data: {
+      probability: number;
+      age_range: string;
+      url: string;
+    }) => void;
+  } = $props();
 
   let files = $state<FileList | null>(null);
   let isError = $state<string | null>(null);
   let isLoading = $state<boolean>(false);
+  let downUrl = $state<string>("");
 
   $effect(() => {
     const imgTypes = ["image/png", "image/jpeg", "image/bmp"];
@@ -36,6 +42,7 @@
     e.preventDefault();
 
     const file = files[0];
+    downUrl = window.URL.createObjectURL(file);
     const url = `${import.meta.env.VITE_BACKEND_URL}/fag/upload`;
     const formData = new FormData();
     formData.append("file", file);
@@ -68,7 +75,11 @@
       isLoading = true;
       handleUpload(e)
         .then((val) => {
-          setResult(val.data);
+          setResult({
+            age_range: val.data.age_range,
+            probability: val.data.probability,
+            url: downUrl,
+          });
         })
         .catch((err: Error) => {
           console.error(err);
