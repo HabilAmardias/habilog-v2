@@ -1,7 +1,11 @@
 <script lang="ts">
   import FagCamera from "./FAGCamera.svelte";
   import FagUpload from "./FAGUpload.svelte";
-  let result = $state<{ probability: number; age_range: string } | null>(null);
+  let result = $state<{
+    probability: number;
+    age_range: string;
+    url: string;
+  } | null>(null);
   let uploadOption = $state<string>("upload");
 </script>
 
@@ -36,6 +40,7 @@
 {#if result}
   <section class="result-section">
     <div class="result-container">
+      <img class="image-result" src={result.url} alt="" />
       <p>
         {Math.round(result.probability * 100)}% chance that you are {result.age_range}
       </p>
@@ -52,6 +57,9 @@
 {/if}
 
 <style>
+  /* .image-result {
+    width: 250px;
+  } */
   .upload-selection {
     background-color: var(--container);
     padding: 0.5rem;
