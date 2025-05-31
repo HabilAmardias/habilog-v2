@@ -35,7 +35,7 @@
   <nav class="top-nav">
     <Collapsible.Root>
       <div class="nav-addon">
-        <h2>Habilog</h2>
+        <h1>Habilog</h1>
         <div class={mobileWindow ? "hidden" : "nav-content"}>
           <a href="/" class="nav-link" onclick={navigateTo}>Home</a>
           <a href="/" class="nav-link" onclick={navigateTo}>About</a>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import "./main.css";
   import "./app.css";
+  // import "./main.css";
   import Footer from "./components/Footer.svelte";
   import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
@@ -41,7 +41,7 @@
     display: flex;
     flex-direction: column;
     margin-inline: 1rem;
-    height: 100%;
+    flex: 0 1 100%;
     gap: 2rem;
     -ms-overflow-style: none;
     scrollbar-width: none;

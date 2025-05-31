@@ -134,6 +134,11 @@
     border: 1px solid var(--app-container);
     border-radius: 0.5rem;
     text-align: center;
+    color: var(--sub-title);
+  }
+
+  .download-container > a:hover {
+    color: var(--text);
   }
 
   #imageFile {
@@ -144,7 +149,6 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    /* width: 80%; */
   }
   .button-container {
     display: flex;
@@ -168,11 +172,9 @@
     opacity: 0.5;
   }
   .label {
-    /* border: 1px solid ; */
     border-radius: 0.5rem;
     padding: 0.5rem;
     color: var(--text);
     border: 1px dashed var(--text);
-    font-size: small;
   }
 </style>

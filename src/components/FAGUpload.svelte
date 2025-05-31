@@ -116,7 +116,6 @@
     padding: 0.5rem;
     color: var(--text);
     border: 1px dashed var(--text);
-    font-size: small;
   }
   .button-container {
     display: flex;

@@ -34,6 +34,11 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    --app-background: #222831;
+    --app-container: #31363f;
+    --sub-title: #76abae;
+    --text: #eeeeee;
   }
 
   .dark {
@@ -68,8 +73,55 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
+  }
+} */
+
+html,
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--app-background);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--sub-title);
+}
+p,
+a {
+  color: var(--text);
+}
+p {
+  text-align: justify;
+  margin: 0;
+}
+
+#app {
+  font-family: "Poppins", sans-serif;
+  height: 100dvh;
+}
+
+@media only screen and (min-width: 1024px) {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  p,
+  a,
+  label {
+    font-size: 1.2rem;
   }
 }
