@@ -20,7 +20,7 @@
 <section class="content-section">
   <h2>About this page</h2>
   <p>
-    If you are wondering "what is this page about", well the answer is this page
+    If you are wondering "what is this page about", the answer is this page
     purpose is to archive (?) my personal projects or maybe personal achievement
     (if any). The project can be anything really but i think the majority of it
     wil be either machine-learning/ai or web development project related. The

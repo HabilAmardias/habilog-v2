@@ -1,6 +1,6 @@
 <script lang="ts">
-  import "./app.css";
   import "./main.css";
+  import "./app.css";
   import Footer from "./components/Footer.svelte";
   import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
@@ -43,7 +43,6 @@
     margin-inline: 1rem;
     height: 100%;
     gap: 2rem;
-    /* overflow-y: scroll; */
     -ms-overflow-style: none;
     scrollbar-width: none;
   }

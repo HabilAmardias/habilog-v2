@@ -2,9 +2,8 @@
   import * as Carousel from "$lib/components/ui/carousel/index.ts";
   import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
   import ErrorPage from "./ErrorPage.svelte";
-  import Fag from "./FAG.svelte";
+  import Loading from "./Loading.svelte";
   import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
-  import Sisr from "./SISR.svelte";
 
   let { CarouselNavigator }: { CarouselNavigator: CarouselNavItf } = $props();
 
@@ -12,6 +11,39 @@
     CarouselNavigator.changeState("SISR");
   }
 </script>
+
+{#snippet FagDesc()}
+  <p>
+    This project implement deep learning model (MobileNetV3 from
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
+      >PyTorch</a
+    >) for Face Age Detection, fine-tuned on
+    <a
+      class="nav-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a
+    >. You can upload your face image or you can take a photo with camera (if
+    you allow it). Your uploaded image will not be uploaded to database
+  </p>
+{/snippet}
+
+{#snippet SISRDesc()}
+  <p>
+    This project implements a deep learning model based on
+    <a
+      class="nav-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://arxiv.org/pdf/1609.04802">SRGAN</a
+    > for single image super-resolution (4x upscale). You can upload image (up to
+    90.000 pixels) you want to upscale, your uploaded image will not be uploaded
+    to database.
+  </p>
+{/snippet}
 
 <section class="projects-section">
   <h2>My Projects</h2>
@@ -22,16 +54,7 @@
           {CarouselNavigator}
           item="FAG"
           title="Face Age Detector"
-          description={`<p>
-            This project implement deep learning model (MobileNetV3 from
-            <a target="_blank" rel="noopener noreferrer"
-              href="https://pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html#torchvision.models.mobilenet_v3_large"
-              >PyTorch</a
-            >) for Face Age Detection, fine-tuned on
-            <a target="_blank" rel="noopener noreferrer" href="https://susanqq.github.io/UTKFace/">Face Dataset Here</a>.
-            You can upload your face image or you can take a photo with camera
-            (if you allow it). Your uploaded image will not be uploaded to database
-          </p>`}
+          description={FagDesc}
         />
       </Carousel.Item>
       <Carousel.Item>
@@ -39,11 +62,7 @@
           {CarouselNavigator}
           item="SISR"
           title="Image Upscaler"
-          description={`<p>
-            This project implements a deep learning model based on
-            <a target="_blank" rel="noopener noreferrer" href="https://arxiv.org/pdf/1609.04802">SRGAN</a> for single image
-            super-resolution (4x upscale). You can upload image (up to 90.000 pixels) you want to upscale, your uploaded image will not be uploaded to database.
-          </p>`}
+          description={SISRDesc}
         />
       </Carousel.Item>
     </Carousel.Content>
@@ -53,9 +72,17 @@
 </section>
 <section class="content-section">
   {#if CarouselNavigator.navState === "SISR"}
-    <Sisr />
+    {#await import("./SISR.svelte")}
+      <Loading />
+    {:then SISR}
+      <SISR.default />
+    {/await}
   {:else if CarouselNavigator.navState === "FAG"}
-    <Fag />
+    {#await import("./FAG.svelte")}
+      <Loading />
+    {:then FAG}
+      <FAG.default />
+    {/await}
   {:else}
     <ErrorPage message="Not Found" navigate={navigateToHome} />
   {/if}
@@ -82,5 +109,12 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+  }
+
+  .nav-link {
+    color: var(--sub-title);
+  }
+  .nav-link:hover {
+    color: var(--text);
   }
 </style>

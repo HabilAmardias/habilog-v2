@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, type Snippet } from "svelte";
   import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
   let {
     CarouselNavigator,
@@ -9,7 +9,7 @@
   }: {
     CarouselNavigator: CarouselNavItf;
     title: string;
-    description: string;
+    description: Snippet;
     item: string;
   } = $props();
 
@@ -35,23 +35,22 @@
   });
 </script>
 
-<button bind:this={el} class="project-container">
+<div bind:this={el} class="project-container">
   <h3>{title}</h3>
-  {@html description}
-</button>
+  {@render description()}
+</div>
 
 <style>
   .project-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--container);
-    border: 1px solid var(--container);
+    background-color: var(--app-container);
+    border: 1px solid var(--app-container);
     border-radius: 0.5rem;
     padding: 1rem;
     gap: 1rem;
     width: 100%;
-    cursor: pointer;
   }
   .project-container > h3 {
     margin: 0;

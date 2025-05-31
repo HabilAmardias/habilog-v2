@@ -1,6 +1,6 @@
 <script lang="ts">
-  import FagCamera from "./FAGCamera.svelte";
-  import FagUpload from "./FAGUpload.svelte";
+  import Loading from "./Loading.svelte";
+
   let result = $state<{
     probability: number;
     age_range: string;
@@ -21,17 +21,25 @@
   <section class="form">
     <form action="" method="POST">
       {#if uploadOption === "upload"}
-        <FagUpload
-          setResult={(data) => {
-            result = data;
-          }}
-        />
+        {#await import("./FAGUpload.svelte")}
+          <Loading />
+        {:then Upload}
+          <Upload.default
+            setResult={(data) => {
+              result = data;
+            }}
+          />
+        {/await}
       {:else if uploadOption === "camera"}
-        <FagCamera
-          setResult={(data) => {
-            result = data;
-          }}
-        />
+        {#await import("./FAGCamera.svelte")}
+          <Loading />
+        {:then Camera}
+          <Camera.default
+            setResult={(data) => {
+              result = data;
+            }}
+          />
+        {/await}
       {/if}
     </form>
   </section>
@@ -57,11 +65,8 @@
 {/if}
 
 <style>
-  /* .image-result {
-    width: 250px;
-  } */
   .upload-selection {
-    background-color: var(--container);
+    background-color: var(--app-container);
     padding: 0.5rem;
     color: var(--sub-title);
     border-radius: 0.5rem;
@@ -99,16 +104,16 @@
   }
   .button-container > button {
     color: var(--sub-title);
-    background-color: var(--container);
+    background-color: var(--app-container);
     padding-block: 0.5rem;
-    border: 1px solid var(--container);
+    border: 1px solid var(--app-container);
     border-radius: 0.5rem;
     width: fit-content;
     padding: 0.5rem;
   }
 
   .button-container > button:hover {
-    color: var(--container);
+    color: var(--app-container);
     background-color: var(--sub-title);
   }
 </style>
