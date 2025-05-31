@@ -48,7 +48,7 @@
 {#if result}
   <section class="result-section">
     <div class="result-container">
-      <img class="image-result" src={result.url} alt="" />
+      <img class="image-result" src={result.url} alt="" width="300" />
       <p>
         {Math.round(result.probability * 100)}% chance that you are {result.age_range}
       </p>
