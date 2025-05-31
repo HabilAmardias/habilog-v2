@@ -1,15 +1,24 @@
 <script lang="ts">
   import * as Carousel from "$lib/components/ui/carousel/index.ts";
+  import { onMount } from "svelte";
   import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
   import ErrorPage from "./ErrorPage.svelte";
   import Loading from "./Loading.svelte";
   import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
 
   let { CarouselNavigator }: { CarouselNavigator: CarouselNavItf } = $props();
+  let isLoading = $state<boolean>(false);
 
   function navigateToHome() {
     CarouselNavigator.changeState("SISR");
   }
+  onMount(() => {
+    isLoading = true;
+    const interval = setInterval(() => {
+      isLoading = false;
+    }, 500);
+    return () => clearInterval(interval);
+  });
 </script>
 
 {#snippet FagDesc()}
@@ -45,48 +54,52 @@
   </p>
 {/snippet}
 
-<section class="projects-section">
-  <h2>My Projects</h2>
-  <Carousel.Root>
-    <Carousel.Content>
-      <Carousel.Item>
-        <ProjectCarouselItem
-          {CarouselNavigator}
-          item="FAG"
-          title="Face Age Detector"
-          description={FagDesc}
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <ProjectCarouselItem
-          {CarouselNavigator}
-          item="SISR"
-          title="Image Upscaler"
-          description={SISRDesc}
-        />
-      </Carousel.Item>
-    </Carousel.Content>
-    <Carousel.Previous />
-    <Carousel.Next />
-  </Carousel.Root>
-</section>
-<section class="content-section">
-  {#if CarouselNavigator.navState === "SISR"}
-    {#await import("./SISR.svelte")}
-      <Loading />
-    {:then SISR}
-      <SISR.default />
-    {/await}
-  {:else if CarouselNavigator.navState === "FAG"}
-    {#await import("./FAG.svelte")}
-      <Loading />
-    {:then FAG}
-      <FAG.default />
-    {/await}
-  {:else}
-    <ErrorPage message="Not Found" navigate={navigateToHome} />
-  {/if}
-</section>
+{#if isLoading}
+  <Loading />
+{:else}
+  <section class="projects-section">
+    <h2>My Projects</h2>
+    <Carousel.Root>
+      <Carousel.Content>
+        <Carousel.Item>
+          <ProjectCarouselItem
+            {CarouselNavigator}
+            item="FAG"
+            title="Face Age Detector"
+            description={FagDesc}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <ProjectCarouselItem
+            {CarouselNavigator}
+            item="SISR"
+            title="Image Upscaler"
+            description={SISRDesc}
+          />
+        </Carousel.Item>
+      </Carousel.Content>
+      <Carousel.Previous />
+      <Carousel.Next />
+    </Carousel.Root>
+  </section>
+  <section class="content-section">
+    {#if CarouselNavigator.navState === "SISR"}
+      {#await import("./SISR.svelte")}
+        <Loading />
+      {:then SISR}
+        <SISR.default />
+      {/await}
+    {:else if CarouselNavigator.navState === "FAG"}
+      {#await import("./FAG.svelte")}
+        <Loading />
+      {:then FAG}
+        <FAG.default />
+      {/await}
+    {:else}
+      <ErrorPage message="Not Found" navigate={navigateToHome} />
+    {/if}
+  </section>
+{/if}
 
 <style>
   .projects-section > h2 {
