@@ -130,15 +130,15 @@
   }
   .button-container > button {
     color: var(--sub-title);
-    background-color: var(--container);
+    background-color: var(--app-container);
     padding-block: 0.5rem;
-    border: 1px solid var(--container);
+    border: 1px solid var(--app-container);
     border-radius: 0.5rem;
     width: 50%;
   }
 
   .button-container > button:hover {
-    color: var(--container);
+    color: var(--app-container);
     background-color: var(--sub-title);
   }
   .button-container > button:disabled {
