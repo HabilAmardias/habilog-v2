@@ -18,26 +18,6 @@
   </select>
 {/if}
 
-{#if !result}
-  <section class="form">
-    <form action="" method="POST">
-      {#if uploadOption === "upload"}
-        <FagUpload
-          setResult={(data) => {
-            result = data;
-          }}
-        />
-      {:else if uploadOption === "camera"}
-        <FagCamera
-          setResult={(data) => {
-            result = data;
-          }}
-        />
-      {/if}
-    </form>
-  </section>
-{/if}
-
 {#if result}
   <section class="result-section">
     <div class="result-container">
@@ -54,6 +34,24 @@
         }}>Upload other image</button
       >
     </div>
+  </section>
+{:else}
+  <section class="form">
+    <form action="" method="POST">
+      {#if uploadOption === "upload"}
+        <FagUpload
+          setResult={(data) => {
+            result = data;
+          }}
+        />
+      {:else if uploadOption === "camera"}
+        <FagCamera
+          setResult={(data) => {
+            result = data;
+          }}
+        />
+      {/if}
+    </form>
   </section>
 {/if}
 

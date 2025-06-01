@@ -45,7 +45,18 @@
   }
 </script>
 
-{#if !downloadURL}
+{#if downloadURL}
+  <div class="download-section">
+    <div class="download-container">
+      <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
+      <a
+        download={`upscaled_img.png`}
+        onclick={() => (downloadURL = null)}
+        href={downloadURL}>Download your upscaled image here</a
+      >
+    </div>
+  </div>
+{:else}
   <div class="form">
     <form
       onsubmit={(e) => {
@@ -91,19 +102,6 @@
         </button>
       </div>
     </form>
-  </div>
-{/if}
-
-{#if downloadURL}
-  <div class="download-section">
-    <div class="download-container">
-      <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
-      <a
-        download={`upscaled_img.png`}
-        onclick={() => (downloadURL = null)}
-        href={downloadURL}>Download your upscaled image here</a
-      >
-    </div>
   </div>
 {/if}
 
