@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Loading from "./Loading.svelte";
+  import FagCamera from "./FAGCamera.svelte";
+  import FagUpload from "./FAGUpload.svelte";
 
   let result = $state<{
     probability: number;
@@ -21,25 +22,17 @@
   <section class="form">
     <form action="" method="POST">
       {#if uploadOption === "upload"}
-        {#await import("./FAGUpload.svelte")}
-          <Loading />
-        {:then Upload}
-          <Upload.default
-            setResult={(data) => {
-              result = data;
-            }}
-          />
-        {/await}
+        <FagUpload
+          setResult={(data) => {
+            result = data;
+          }}
+        />
       {:else if uploadOption === "camera"}
-        {#await import("./FAGCamera.svelte")}
-          <Loading />
-        {:then Camera}
-          <Camera.default
-            setResult={(data) => {
-              result = data;
-            }}
-          />
-        {/await}
+        <FagCamera
+          setResult={(data) => {
+            result = data;
+          }}
+        />
       {/if}
     </form>
   </section>
