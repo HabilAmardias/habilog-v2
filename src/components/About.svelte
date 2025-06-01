@@ -1,7 +1,7 @@
 <script lang="ts">
   import MyResume from "../assets/resume.pdf";
-  import MyPhoto from "../assets/MyPhoto.jpeg";
-  import GraduationPhoto from "../assets/GraduationPhoto.jpeg";
+  import MyPhoto from "../assets/MyPhoto.webp";
+  import GraduationPhoto from "../assets/GraduationPhoto.webp";
   import AboutContent from "./AboutContent.svelte";
 </script>
 

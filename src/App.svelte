@@ -1,13 +1,11 @@
 <script lang="ts">
   import "./app.css";
-  // import "./main.css";
   import Footer from "./components/Footer.svelte";
-  import Home from "./components/Home.svelte";
   import Nav from "./components/Nav.svelte";
   import router from "./stores/RouteStore.svelte";
   import ErrorPage from "./components/ErrorPage.svelte";
   import CarouselNavigator from "./stores/CarouselNavStore.svelte";
-  import About from "./components/About.svelte";
+  import Loading from "./components/Loading.svelte";
 
   function navigateToHome() {
     router.changeRoute("Home");
@@ -18,9 +16,17 @@
   <Nav {router} />
   <main class="main-content">
     {#if router.routeState === "Home"}
-      <Home {CarouselNavigator} />
+      {#await import("./components/Home.svelte")}
+        <Loading />
+      {:then Home}
+        <Home.default {CarouselNavigator} />
+      {/await}
     {:else if router.routeState === "About"}
-      <About />
+      {#await import("./components/About.svelte")}
+        <Loading />
+      {:then About}
+        <About.default />
+      {/await}
     {:else}
       <ErrorPage navigate={navigateToHome} message="Page Not Found" />
     {/if}
