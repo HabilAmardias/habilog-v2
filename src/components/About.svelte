@@ -1,12 +1,17 @@
 <script lang="ts">
   import MyResume from "../assets/resume.pdf";
-  import MyPhoto from "../assets/MyPhoto.webp";
-  import GraduationPhoto from "../assets/GraduationPhoto.webp";
   import AboutContent from "./AboutContent.svelte";
+  import Loading from "./Loading.svelte";
 </script>
 
 {#snippet introduction()}
-  <img class="about-img" src={MyPhoto} alt="" />
+  <div class="img-container">
+    {#await import("../assets/MyPhoto.webp")}
+      <Loading />
+    {:then Image}
+      <img src={Image.default} alt="" class="about-img" />
+    {/await}
+  </div>
   <p>
     Hello, first, I want to say thank you for visiting this page. My name is
     Habil. I was born in Jakarta, Desember 9th 2002. I have interest in machine
@@ -15,7 +20,13 @@
 {/snippet}
 
 {#snippet education()}
-  <img src={GraduationPhoto} alt="" class="about-img" />
+  <div class="img-container">
+    {#await import("../assets/GraduationPhoto.webp")}
+      <Loading />
+    {:then Image}
+      <img src={Image.default} alt="" class="about-img" />
+    {/await}
+  </div>
   <p>
     I graduated with a degree in Mathematics from a university in Indonesia in
     August 2024. During college, I participated in several data science
@@ -93,21 +104,24 @@
 <AboutContent snip={finalWords} />
 
 <style>
-  .about-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-  }
   .nav-link {
     color: var(--sub-title);
   }
   .nav-link:hover {
     color: var(--text);
   }
+  .about-img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .img-container {
+    height: 200px;
+    width: 200px;
+  }
   @media only screen and (min-width: 1024px) {
-    .about-img {
-      width: 300px;
+    .img-container {
       height: 300px;
+      min-width: 300px;
     }
     .content-title > h2 {
       width: max-content;
