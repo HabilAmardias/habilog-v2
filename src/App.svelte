@@ -4,7 +4,6 @@
   import Nav from "./components/Nav.svelte";
   import router from "./stores/RouteStore.svelte";
   import ErrorPage from "./components/ErrorPage.svelte";
-  import CarouselNavigator from "./stores/CarouselNavStore.svelte";
   import Loading from "./components/Loading.svelte";
 
   function navigateToHome() {
@@ -19,7 +18,7 @@
       {#await import("./components/Home.svelte")}
         <Loading />
       {:then Home}
-        <Home.default {CarouselNavigator} />
+        <Home.default />
       {/await}
     {:else if router.routeState === "About"}
       {#await import("./components/About.svelte")}

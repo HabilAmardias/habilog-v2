@@ -1,12 +1,10 @@
 <script lang="ts">
   import * as Carousel from "$lib/components/ui/carousel/index.ts";
-  import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
   import ErrorPage from "./ErrorPage.svelte";
   import Fag from "./FAG.svelte";
   import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
   import Sisr from "./SISR.svelte";
-
-  let { CarouselNavigator }: { CarouselNavigator: CarouselNavItf } = $props();
+  import CarouselNavigator from "../stores/CarouselNavStore.svelte";
 
   function navigateToHome() {
     CarouselNavigator.changeState("SISR");
