@@ -6,8 +6,14 @@
 
   let { router }: { router: RouterItf } = $props();
 
-  let isOpen = $state<boolean>(false);
   let mobileWindow = $state<boolean>(window.innerWidth < 1024);
+  let isOpen = $state<boolean>(false);
+  function onOpenChange() {
+    isOpen = !isOpen;
+  }
+  function closeCollapsible() {
+    isOpen = false;
+  }
 
   $effect(() => {
     function handleWindowSize() {
@@ -17,23 +23,21 @@
     return () => window.removeEventListener("resize", handleWindowSize);
   });
 
-  function toggleIsOpen() {
-    isOpen = !isOpen;
-  }
-
   function navigateTo(
     e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }
   ) {
     e.preventDefault();
     const ele = e.target as HTMLElement;
     router.changeRoute(ele.innerText);
-    toggleIsOpen();
+    if (mobileWindow) {
+      closeCollapsible();
+    }
   }
 </script>
 
 <header class="app-header">
   <nav class="top-nav">
-    <Collapsible.Root>
+    <Collapsible.Root open={isOpen} {onOpenChange}>
       <div class="nav-addon">
         <h1>Habilog</h1>
         <div class={mobileWindow ? "hidden" : "nav-content"}>

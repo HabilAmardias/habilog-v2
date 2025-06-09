@@ -7,7 +7,11 @@
   import Loading from "./components/Loading.svelte";
 
   function navigateToHome() {
-    router.changeRoute("Home");
+    if (router.routeState === "Home") {
+      window.location.reload();
+    } else {
+      router.changeRoute("Home");
+    }
   }
 </script>
 
@@ -18,7 +22,7 @@
       {#await import("./components/Home.svelte")}
         <Loading />
       {:then Home}
-        <Home.default />
+        <Home.default {navigateToHome} />
       {/await}
     {:else if router.routeState === "About"}
       {#await import("./components/About.svelte")}

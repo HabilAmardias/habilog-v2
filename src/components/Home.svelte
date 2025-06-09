@@ -4,11 +4,13 @@
   import Fag from "./FAG.svelte";
   import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
   import Sisr from "./SISR.svelte";
-  import CarouselNavigator from "../stores/CarouselNavStore.svelte";
 
-  function navigateToHome() {
-    CarouselNavigator.changeState("SISR");
+  let carouselState = $state<string>("FAG");
+  function setCarouselState(newState: string) {
+    carouselState = newState;
   }
+
+  let { navigateToHome }: { navigateToHome: () => void } = $props();
 </script>
 
 {#snippet FagDesc()}
@@ -50,7 +52,7 @@
     <Carousel.Content>
       <Carousel.Item>
         <ProjectCarouselItem
-          {CarouselNavigator}
+          setCarousal={setCarouselState}
           item="FAG"
           title="Face Age Detector"
           description={FagDesc}
@@ -58,7 +60,7 @@
       </Carousel.Item>
       <Carousel.Item>
         <ProjectCarouselItem
-          {CarouselNavigator}
+          setCarousal={setCarouselState}
           item="SISR"
           title="Image Upscaler"
           description={SISRDesc}
@@ -70,9 +72,9 @@
   </Carousel.Root>
 </section>
 <section class="content-section">
-  {#if CarouselNavigator.navState === "SISR"}
+  {#if carouselState === "SISR"}
     <Sisr />
-  {:else if CarouselNavigator.navState === "FAG"}
+  {:else if carouselState === "FAG"}
     <Fag />
   {:else}
     <ErrorPage message="Not Found" navigate={navigateToHome} />
