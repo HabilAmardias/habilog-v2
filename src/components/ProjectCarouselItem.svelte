@@ -1,13 +1,12 @@
 <script lang="ts">
   import { onMount, type Snippet } from "svelte";
-  import type { CarouselNavItf } from "../stores/CarouselNavStore.svelte";
   let {
-    CarouselNavigator,
+    setCarousal,
     title,
     description,
     item,
   }: {
-    CarouselNavigator: CarouselNavItf;
+    setCarousal: (newState: string) => void;
     title: string;
     description: Snippet;
     item: string;
@@ -20,7 +19,7 @@
       (e) => {
         e.forEach((val) => {
           if (val.isIntersecting) {
-            CarouselNavigator.changeState(item);
+            setCarousal(item);
           }
         });
       },
