@@ -3,7 +3,7 @@
   let { snip }: { snip: Snippet } = $props();
 
   let isVisible = $state<boolean>(false);
-  let sectionContent = $state<Element | null>(null);
+  let container = $state<Element | null>(null);
 
   onMount(() => {
     const observer = new IntersectionObserver(
@@ -16,22 +16,19 @@
       },
       { threshold: 0.5 }
     );
-    if (sectionContent) {
-      observer.observe(sectionContent);
+    if (container) {
+      observer.observe(container);
     }
     return () => observer.disconnect();
   });
 </script>
 
-<section
-  bind:this={sectionContent}
-  class={`content-section ${isVisible ? "inview" : ""}`}
->
+<div bind:this={container} class={`content ${isVisible ? "inview" : ""}`}>
   {@render snip()}
-</section>
+</div>
 
 <style>
-  .content-section {
+  .content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,12 +39,12 @@
       opacity 0.6s ease-out,
       transform 0.6s ease-out;
   }
-  .content-section.inview {
+  .content.inview {
     opacity: 1;
     transform: translateY(0);
   }
   @media only screen and (min-width: 1024px) {
-    .content-section {
+    .content {
       flex-direction: row;
       gap: 2rem;
       height: 50dvh;

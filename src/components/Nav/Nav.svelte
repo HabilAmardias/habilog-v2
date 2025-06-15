@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { type RouterItf } from "../stores/RouteStore.svelte";
   import * as Collapsible from "$lib/components/ui/collapsible";
   import GithubIcon from "./GithubIcon.svelte";
   import LinkedinIcon from "./LinkedinIcon.svelte";
 
-  let { router }: { router: RouterItf } = $props();
+  let { changeRoute }: { changeRoute: (newRoute: string) => void } = $props();
 
   let mobileWindow = $state<boolean>(window.innerWidth < 1024);
   let isOpen = $state<boolean>(false);
@@ -28,7 +27,7 @@
   ) {
     e.preventDefault();
     const ele = e.target as HTMLElement;
-    router.changeRoute(ele.innerText);
+    changeRoute(ele.innerText);
     if (mobileWindow) {
       closeCollapsible();
     }

@@ -1,61 +1,25 @@
 <script lang="ts">
-  import "./app.css";
-  import Footer from "./components/Footer.svelte";
-  import Nav from "./components/Nav.svelte";
-  import router from "./stores/RouteStore.svelte";
-  import ErrorPage from "./components/ErrorPage.svelte";
   import Loading from "./components/Loading.svelte";
-
-  function navigateToHome() {
-    if (router.routeState === "Home") {
-      window.location.reload();
-    } else {
-      router.changeRoute("Home");
-    }
-  }
+  import ErrorPage from "./components/ErrorPage.svelte";
+  import PageLayout from "./layouts/PageLayout.svelte";
 </script>
 
-<div class="container">
-  <Nav {router} />
-  <main class="main-content">
-    {#if router.routeState === "Home"}
-      {#await import("./components/Home.svelte")}
-        <Loading />
-      {:then Home}
-        <Home.default {navigateToHome} />
-      {/await}
-    {:else if router.routeState === "About"}
-      {#await import("./components/About.svelte")}
-        <Loading />
-      {:then About}
-        <About.default />
-      {/await}
-    {:else}
-      <ErrorPage navigate={navigateToHome} message="Page Not Found" />
-    {/if}
-  </main>
-  <Footer />
-</div>
+{#snippet MainContent(routeState: string, navigateToHome: () => void)}
+  {#if routeState === "Home"}
+    {#await import("./pages/Home.svelte")}
+      <Loading />
+    {:then Home}
+      <Home.default {navigateToHome} />
+    {/await}
+  {:else if routeState === "About"}
+    {#await import("./pages/About.svelte")}
+      <Loading />
+    {:then About}
+      <About.default />
+    {/await}
+  {:else}
+    <ErrorPage navigate={navigateToHome} message="Page Not Found" />
+  {/if}
+{/snippet}
 
-<style>
-  .container {
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex-direction: column;
-    height: 100%;
-    gap: 1rem;
-  }
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    margin-inline: 1rem;
-    flex: 0 1 100%;
-    gap: 2rem;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .main-content::-webkit-scrollbar {
-    display: none;
-  }
-</style>
+<PageLayout {MainContent} />

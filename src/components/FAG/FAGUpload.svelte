@@ -1,6 +1,6 @@
 <script lang="ts">
-  import InlineError from "./InlineError.svelte";
-  import Loading from "./Loading.svelte";
+  import InlineError from "../InlineError.svelte";
+  import Loading from "../Loading.svelte";
 
   interface FAGResponse {
     message: string;

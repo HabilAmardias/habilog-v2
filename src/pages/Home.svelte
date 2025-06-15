@@ -1,9 +1,8 @@
 <script lang="ts">
   import * as Carousel from "$lib/components/ui/carousel/index.ts";
-  import ErrorPage from "./ErrorPage.svelte";
-  import Fag from "./FAG.svelte";
-  import ProjectCarouselItem from "./ProjectCarouselItem.svelte";
-  import Sisr from "./SISR.svelte";
+  import ErrorPage from "../components/ErrorPage.svelte";
+  import CarouselItem from "../components/CarouselItem.svelte";
+  import Loading from "../components/Loading.svelte";
 
   let carouselState = $state<string>("FAG");
   function setCarouselState(newState: string) {
@@ -51,7 +50,7 @@
   <Carousel.Root>
     <Carousel.Content>
       <Carousel.Item>
-        <ProjectCarouselItem
+        <CarouselItem
           setCarousal={setCarouselState}
           item="FAG"
           title="Face Age Detector"
@@ -59,7 +58,7 @@
         />
       </Carousel.Item>
       <Carousel.Item>
-        <ProjectCarouselItem
+        <CarouselItem
           setCarousal={setCarouselState}
           item="SISR"
           title="Image Upscaler"
@@ -73,9 +72,17 @@
 </section>
 <section class="content-section">
   {#if carouselState === "SISR"}
-    <Sisr />
+    {#await import("../components/SISR/SISR.svelte")}
+      <Loading />
+    {:then SISR}
+      <SISR.default />
+    {/await}
   {:else if carouselState === "FAG"}
-    <Fag />
+    {#await import("../components/FAG/FAG.svelte")}
+      <Loading />
+    {:then FAG}
+      <FAG.default />
+    {/await}
   {:else}
     <ErrorPage message="Not Found" navigate={navigateToHome} />
   {/if}

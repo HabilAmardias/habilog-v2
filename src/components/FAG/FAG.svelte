@@ -7,6 +7,7 @@
     age_range: string;
     url: string;
   } | null>(null);
+
   let uploadOption = $state<string>("upload");
 </script>
 

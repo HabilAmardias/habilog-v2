@@ -34,13 +34,13 @@
   });
 </script>
 
-<div bind:this={el} class="project-container">
+<div bind:this={el} class="item-container">
   <h3>{title}</h3>
   {@render description()}
 </div>
 
 <style>
-  .project-container {
+  .item-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,12 +51,12 @@
     gap: 1rem;
     width: 100%;
   }
-  .project-container > h3 {
+  .item-container > h3 {
     margin: 0;
     text-align: center;
   }
   @media only screen and (min-width: 768px) {
-    .project-container {
+    .item-container {
       width: 70%;
       margin: 0 auto;
     }
