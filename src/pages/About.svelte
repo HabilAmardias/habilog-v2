@@ -1,7 +1,7 @@
 <script lang="ts">
   import MyResume from "../assets/resume.pdf";
-  import AboutContent from "./AboutContent.svelte";
-  import Loading from "./Loading.svelte";
+  import AnimatedContainer from "../components/AnimatedContainer.svelte";
+  import Loading from "../components/Loading.svelte";
 </script>
 
 {#snippet introduction()}
@@ -98,10 +98,10 @@
   </p>
 {/snippet}
 
-<AboutContent snip={introduction} />
-<AboutContent snip={education} />
-<AboutContent snip={aboutPage} />
-<AboutContent snip={finalWords} />
+<AnimatedContainer snip={introduction} />
+<AnimatedContainer snip={education} />
+<AnimatedContainer snip={aboutPage} />
+<AnimatedContainer snip={finalWords} />
 
 <style>
   .nav-link {
@@ -123,8 +123,11 @@
       height: 300px;
       min-width: 300px;
     }
+    .content-title {
+      min-width: 300px;
+    }
     .content-title > h2 {
-      width: max-content;
+      text-align: center;
     }
   }
 </style>

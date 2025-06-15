@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Loading from "./Loading.svelte";
-  import InlineError from "./InlineError.svelte";
+  import Loading from "../Loading.svelte";
+  import InlineError from "../InlineError.svelte";
 
   let files = $state<FileList | null>(null);
   let isError = $state<string | null>(null);

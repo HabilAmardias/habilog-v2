@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import InlineError from "./InlineError.svelte";
-  import Loading from "./Loading.svelte";
+  import InlineError from "../InlineError.svelte";
+  import Loading from "../Loading.svelte";
 
   let {
     setResult,
@@ -23,6 +23,7 @@
   let videoSource = $state<HTMLVideoElement | null>(null);
   let canvas = $state<HTMLCanvasElement | null>(null);
   let downUrl = $state<string>("");
+
   onMount(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -34,7 +35,9 @@
       })
       .catch(() => (isError = "Failed to use webcam"));
     return () => {
-      videoSource?.srcObject?.getTracks().forEach((t) => t.stop());
+      (videoSource!.srcObject! as MediaStream)
+        .getTracks()
+        .forEach((t) => t.stop());
     };
   });
 
