@@ -6,25 +6,47 @@
     label,
     data,
     labels,
+    lollipop = false,
   }: {
     type: ChartType;
     label: string;
     data: Array<number>;
-    labels: Array<string>;
+    labels: Array<any>;
+    lollipop: boolean;
   } = $props();
 
   const drawGraph: Attachment = (node: Element) => {
-    const dataset: ChartDataset = {
+    const lineDataset: ChartDataset = {
       label: label,
       data: data,
-      fill: false,
     };
+    const lollipopDataset: ChartDataset = {
+      label: `${label}_acf`,
+      data: data,
+      borderWidth: 2,
+      pointRadius: 8,
+      pointHoverRadius: 10,
+      showLine: false,
+      type: "scatter",
+      backgroundColor: "red",
+    };
+
+    let datasets: ChartDataset[] = [];
+
+    if (lollipop) {
+      datasets.push(lollipopDataset);
+    } else {
+      datasets.push(lineDataset);
+    }
 
     let graph = new Chart(node as HTMLCanvasElement, {
       type: type,
       data: {
         labels: $state.snapshot(labels),
-        datasets: [dataset],
+        datasets,
+      },
+      options: {
+        responsive: true,
       },
     });
 
@@ -34,4 +56,17 @@
   };
 </script>
 
-<canvas {@attach drawGraph}></canvas>
+<div class="canvas-container">
+  <canvas {@attach drawGraph}></canvas>
+</div>
+
+<style>
+  .canvas-container {
+    width: 100%;
+  }
+  @media only screen and (min-width: 1024px) {
+    .canvas-container {
+      width: 50%;
+    }
+  }
+</style>
