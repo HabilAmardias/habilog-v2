@@ -3,6 +3,7 @@
   import ErrorPage from "../components/ErrorPage.svelte";
   import CarouselItem from "../components/CarouselItem.svelte";
   import Loading from "../components/Loading.svelte";
+  import Dashboard from "../components/WeatherDashboard/Dashboard.svelte";
 
   let carouselState = $state<string>("FAG");
   function setCarouselState(newState: string) {
@@ -45,6 +46,18 @@
   </p>
 {/snippet}
 
+{#snippet WeatherDashboardDesc()}
+  <p>
+    This dashboard provides insights into weather patterns in Gunung Putri,
+    Indonesia. Weather data is taken from <a
+      class="nav-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://open-meteo.com/">Open-Meteo</a
+    >.
+  </p>
+{/snippet}
+
 <section class="projects-section">
   <h2>My Projects</h2>
   <Carousel.Root>
@@ -65,6 +78,14 @@
           description={SISRDesc}
         />
       </Carousel.Item>
+      <Carousel.Item>
+        <CarouselItem
+          setCarousal={setCarouselState}
+          item="WeatherDashboard"
+          title="Weather Dashboard"
+          description={WeatherDashboardDesc}
+        />
+      </Carousel.Item>
     </Carousel.Content>
     <Carousel.Previous />
     <Carousel.Next />
@@ -83,6 +104,8 @@
     {:then FAG}
       <FAG.default />
     {/await}
+  {:else if carouselState === "WeatherDashboard"}
+    <Dashboard navigate={navigateToHome} />
   {:else}
     <ErrorPage message="Not Found" navigate={navigateToHome} />
   {/if}
