@@ -20,6 +20,7 @@
     background-color: var(--app-container);
     border-radius: 0.5rem;
     padding: 0.5rem;
+    width: 20%;
   }
   .data {
     color: var(--text);

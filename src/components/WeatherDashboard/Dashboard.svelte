@@ -223,6 +223,7 @@
   .summary-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
   }
   .option-dropdown {
