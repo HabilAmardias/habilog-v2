@@ -19,12 +19,6 @@
     time: Array<Date>;
     rain_sum: Array<number>;
     relative_humidity: Array<number>;
-    temperature_acf: Array<number>;
-    apparent_temperature_acf: Array<number>;
-    wind_speed_acf: Array<number>;
-    wind_gusts_acf: Array<number>;
-    rain_sum_acf: Array<number>;
-    relative_humidity_acf: Array<number>;
   }
 
   interface GetWeatherResponse {
@@ -123,29 +117,11 @@
       lollipop={false}
     />
     <Plot
-      type="bar"
-      label="temperature"
-      data={$state.snapshot(weatherData.temperature_acf)}
-      labels={Array(weatherData.temperature_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
-    />
-    <Plot
       type="line"
       label="apparent_temperature"
       data={$state.snapshot(weatherData.apparent_temperature)}
       labels={$state.snapshot(weatherData.time)}
       lollipop={false}
-    />
-    <Plot
-      type="bar"
-      label="apparent_temperature"
-      data={$state.snapshot(weatherData.apparent_temperature_acf)}
-      labels={Array(weatherData.apparent_temperature_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
     />
     <Plot
       type="line"
@@ -155,29 +131,11 @@
       lollipop={false}
     />
     <Plot
-      type="bar"
-      label="rain_intensity"
-      data={$state.snapshot(weatherData.rain_sum_acf)}
-      labels={Array(weatherData.rain_sum_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
-    />
-    <Plot
       type="line"
       label="humidity"
       data={$state.snapshot(weatherData.relative_humidity)}
       labels={$state.snapshot(weatherData.time)}
       lollipop={false}
-    />
-    <Plot
-      type="bar"
-      label="humidity"
-      data={$state.snapshot(weatherData.relative_humidity_acf)}
-      labels={Array(weatherData.relative_humidity_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
     />
     <Plot
       type="line"
@@ -187,29 +145,11 @@
       lollipop={false}
     />
     <Plot
-      type="bar"
-      label="wind_gusts"
-      data={$state.snapshot(weatherData.wind_gusts_acf)}
-      labels={Array(weatherData.wind_gusts_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
-    />
-    <Plot
       type="line"
       label="wind_speed"
       data={$state.snapshot(weatherData.wind_speed)}
       labels={$state.snapshot(weatherData.time)}
       lollipop={false}
-    />
-    <Plot
-      type="bar"
-      label="wind_speed"
-      data={$state.snapshot(weatherData.wind_speed_acf)}
-      labels={Array(weatherData.wind_speed_acf.length)
-        .fill(undefined)
-        .map((_, i) => i)}
-      lollipop={true}
     />
   </div>
 {/if}
