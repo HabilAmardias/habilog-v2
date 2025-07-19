@@ -67,7 +67,7 @@
       };
     };
     getData()
-      .then(async (val) => {
+      .then((val) => {
         weatherData = val.res.data;
         opts = val.opt.data;
       })
