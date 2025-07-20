@@ -6,12 +6,14 @@
     label,
     data,
     labels,
+    color,
     lollipop = false,
   }: {
     type: ChartType;
     label: string;
     data: Array<number>;
     labels: Array<any>;
+    color: string
     lollipop: boolean;
   } = $props();
 
@@ -19,6 +21,7 @@
     const lineDataset: ChartDataset = {
       label: label,
       data: data,
+      backgroundColor: color
     };
     const lollipopDataset: ChartDataset = {
       label: `${label}_acf`,
@@ -28,7 +31,7 @@
       pointHoverRadius: 10,
       showLine: false,
       type: "scatter",
-      backgroundColor: "red",
+      backgroundColor: color,
     };
 
     let datasets: ChartDataset[] = [];
