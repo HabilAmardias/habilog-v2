@@ -21,7 +21,8 @@
     const lineDataset: ChartDataset = {
       label: label,
       data: data,
-      backgroundColor: color
+      backgroundColor: color,
+      borderColor: color
     };
     const lollipopDataset: ChartDataset = {
       label: `${label}_acf`,
@@ -32,6 +33,7 @@
       showLine: false,
       type: "scatter",
       backgroundColor: color,
+      borderColor: color
     };
 
     let datasets: ChartDataset[] = [];

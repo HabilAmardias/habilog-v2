@@ -63,7 +63,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
     <Plot
       type="line"
@@ -73,7 +73,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
     <Plot
       type="line"
@@ -83,7 +83,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
     <Plot
       type="line"
@@ -93,7 +93,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
     <Plot
       type="line"
@@ -103,7 +103,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
     <Plot
       type="line"
@@ -113,7 +113,7 @@
         .snapshot(forecastData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
-      color="yellow"
+      color="green"
     />
   </div>
 {/if}
