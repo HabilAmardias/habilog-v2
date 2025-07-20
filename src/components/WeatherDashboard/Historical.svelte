@@ -120,6 +120,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
     <Plot
       type="line"
@@ -129,6 +130,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
     <Plot
       type="line"
@@ -138,6 +140,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
     <Plot
       type="line"
@@ -147,6 +150,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
     <Plot
       type="line"
@@ -156,6 +160,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
     <Plot
       type="line"
@@ -165,6 +170,7 @@
         .snapshot(weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
+      color="blue"
     />
   </div>
 {/if}

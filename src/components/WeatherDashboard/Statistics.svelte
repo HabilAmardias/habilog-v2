@@ -55,6 +55,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
     <Plot
       type="bar"
@@ -64,6 +65,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
     <Plot
       type="bar"
@@ -73,6 +75,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
     <Plot
       type="bar"
@@ -82,6 +85,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
     <Plot
       type="bar"
@@ -91,6 +95,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
     <Plot
       type="bar"
@@ -100,6 +105,7 @@
         .fill(undefined)
         .map((_, i) => i)}
       lollipop={true}
+      color="red"
     />
   </div>
 {/if}

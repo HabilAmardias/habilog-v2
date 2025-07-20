@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Forecast from "./Forecast.svelte";
   import Historical from "./Historical.svelte";
   import Statistics from "./Statistics.svelte";
 
@@ -10,6 +11,7 @@
   <select class="option-dropdown" bind:value={opt} name="year" id="">
     <option value="Historical">Historical</option>
     <option value="Statistic">Statistic</option>
+    <option value="Forecast">Forecast</option>
   </select>
 </div>
 
@@ -17,6 +19,8 @@
   <Historical {navigate} />
 {:else if opt === "Statistic"}
   <Statistics {navigate}/>
+{:else if opt === "Forecast"}
+  <Forecast {navigate}/>
 {/if}
 
 <style>
