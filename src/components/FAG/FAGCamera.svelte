@@ -2,122 +2,40 @@
   import { onMount } from "svelte";
   import InlineError from "../InlineError.svelte";
   import Loading from "../Loading.svelte";
+  import type { FAGCameraState } from "./fagUiState.svelte";
+  let {state} : {state: FAGCameraState} = $props()
 
-  let {
-    setResult,
-  }: {
-    setResult: (data: {
-      probability: number;
-      age_range: string;
-      url: string;
-    }) => void;
-  } = $props();
-
-  interface FAGResponse {
-    message: string;
-    data: { probability: number; age_range: string };
-  }
-
-  let isError = $state<string | null>(null);
-  let isLoading = $state<boolean>(false);
-  let videoSource = $state<HTMLVideoElement | null>(null);
-  let canvas = $state<HTMLCanvasElement | null>(null);
-  let downUrl = $state<string>("");
-
-  onMount(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((val) => {
-        if (videoSource) {
-          videoSource.srcObject = val;
-          videoSource.play();
-        }
-      })
-      .catch(() => (isError = "Failed to use webcam"));
+  onMount(()=>{
+    const cleanup = state.getVideo()
     return () => {
-      (videoSource!.srcObject! as MediaStream)
-        .getTracks()
-        .forEach((t) => t.stop());
-    };
-  });
-
-  async function handleWebcam(
-    e: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }
-  ) {
-    e.preventDefault();
-
-    if (canvas && videoSource) {
-      canvas.width = videoSource.videoWidth;
-      canvas.height = videoSource.videoHeight;
+      cleanup()
     }
-
-    const context = canvas?.getContext("2d");
-    context?.drawImage(
-      videoSource as CanvasImageSource,
-      0,
-      0,
-      canvas!.width,
-      canvas!.height
-    );
-
-    const formData = new FormData();
-    const blob = await new Promise<Blob | null>((resolve) => {
-      canvas?.toBlob((b) => {
-        if (b) {
-          resolve(b);
-        }
-      }, "image/png");
-    });
-    if (!blob) throw new Error("Failed to capture image from webcam");
-    downUrl = window.URL.createObjectURL(blob);
-    formData.append("file", blob);
-
-    const url = `${import.meta.env.VITE_BACKEND_URL}/fag/upload`;
-
-    const res = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.detail);
-    }
-    const response: FAGResponse = await res.json();
-    return response;
-  }
+  })
 </script>
 
-<video bind:this={videoSource}><track kind="captions" /></video>
-<canvas bind:this={canvas} style="display: none;"></canvas>
-{#if isError}
-  <InlineError message={isError} />
+<video bind:this={state.videoSource}><track kind="captions" /></video>
+<canvas bind:this={state.canvas} style="display: none;"></canvas>
+{#if state.isError}
+  <InlineError message={state.isError.message} />
 {/if}
 <div class="button-container">
   <button
     onclick={(e) => {
-      isLoading = true;
-      isError = null;
-      handleWebcam(e)
+      state.handleUploadCamera(e)
         .then((val) => {
-          setResult({
-            age_range: val.data.age_range,
-            probability: val.data.probability,
-            url: downUrl,
-          });
+          state.setResult({...val.data, url: state.downUrl})
         })
         .catch((err: Error) => {
-          console.error(err);
-          isError = err.message;
+          state.setIsError(err)
         })
         .finally(() => {
-          isLoading = false;
+          state.stopLoading()
         });
     }}
-    disabled={isLoading ? true : false}
+    disabled={state.isLoading}
     type="button"
   >
-    {#if isLoading}
+    {#if state.isLoading}
       <Loading />
     {:else}
       Upload

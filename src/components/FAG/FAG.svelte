@@ -1,55 +1,42 @@
 <script lang="ts">
   import FagCamera from "./FAGCamera.svelte";
+  import { uiState } from "./fagUiState.svelte";
   import FagUpload from "./FAGUpload.svelte";
-
-  let result = $state<{
-    probability: number;
-    age_range: string;
-    url: string;
-  } | null>(null);
-
-  let uploadOption = $state<string>("upload");
 </script>
 
 {#if "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices}
   <p>Choose one of the option</p>
-  <select class="upload-selection" bind:value={uploadOption} name="" id="">
+  <select class="upload-selection" bind:value={uiState.uploadOption} name="" id="">
     <option value="camera">Camera</option>
     <option value="upload">Upload</option>
   </select>
 {/if}
 
-{#if result}
+{#if uiState.result}
   <section class="result-section">
     <div class="result-container">
-      <img class="image-result" src={result.url} alt="" width="300" />
+      <img class="image-result" src={uiState.result.url} alt="" width="300" />
       <p>
-        {Math.round(result.probability * 100)}% chance that you are {result.age_range}
+        {Math.round(uiState.result.probability * 100)}% chance that you are {uiState.result.age_range}
       </p>
     </div>
     <div class="button-container">
       <button
         type="button"
-        onclick={() => {
-          result = null;
-        }}>Upload other image</button
+        onclick={uiState.removeResult}>Upload other image</button
       >
     </div>
   </section>
 {:else}
   <section class="form">
     <form action="" method="POST">
-      {#if uploadOption === "upload"}
+      {#if uiState.uploadOption === "upload"}
         <FagUpload
-          setResult={(data) => {
-            result = data;
-          }}
+          state={uiState}
         />
-      {:else if uploadOption === "camera"}
+      {:else if uiState.uploadOption === "camera"}
         <FagCamera
-          setResult={(data) => {
-            result = data;
-          }}
+          state={uiState}
         />
       {/if}
     </form>
