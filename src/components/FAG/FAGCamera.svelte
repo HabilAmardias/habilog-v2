@@ -7,9 +7,7 @@
 
   onMount(()=>{
     const cleanup = state.getVideo()
-    return () => {
-      cleanup()
-    }
+    return cleanup
   })
 </script>
 
