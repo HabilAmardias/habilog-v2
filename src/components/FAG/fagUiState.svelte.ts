@@ -75,20 +75,22 @@ class fagUiState{
         this.isLoading = true
         this.isError = null
 
-        if (this.canvas && this.videoSource) {
-            this.canvas.width = this.videoSource.videoWidth;
-            this.canvas.height = this.videoSource.videoHeight;
-            const context = this.canvas.getContext("2d")
-            if (context){
-                context.drawImage(
-                    this.videoSource as CanvasImageSource,
-                    0,
-                    0,
-                    this.canvas.width,
-                    this.canvas.height
-                )
-            }
+        if (!this.canvas || !this.videoSource) {
+            throw new Error("Failed to upload image")
         }
+        this.canvas.width = this.videoSource.videoWidth;
+        this.canvas.height = this.videoSource.videoHeight;
+        const context = this.canvas.getContext("2d")
+        if (!context){
+            throw new Error("Failed to upload image")
+        }
+        context.drawImage(
+            this.videoSource as CanvasImageSource,
+            0,
+            0,
+            this.canvas.width,
+            this.canvas.height
+        )
         const formData = new FormData()
         const blob = await new Promise<Blob>((resolve, reject)=>{
             this.canvas?.toBlob((b)=>{
