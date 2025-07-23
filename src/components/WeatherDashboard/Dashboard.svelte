@@ -2,25 +2,26 @@
   import Forecast from "./Forecast.svelte";
   import Historical from "./Historical.svelte";
   import Statistics from "./Statistics.svelte";
+  import { uiState } from "./weatherUiState.svelte";
 
   let { navigate }: { navigate: () => void } = $props();
-  let opt = $state<string>("Historical");
+
 </script>
 
 <div class="opts-container">
-  <select class="option-dropdown" bind:value={opt} name="year" id="">
+  <select class="option-dropdown" bind:value={uiState.opt} name="year" id="">
     <option value="Historical">Historical</option>
     <option value="Statistic">Statistic</option>
     <option value="Forecast">Forecast</option>
   </select>
 </div>
 
-{#if opt === "Historical"}
-  <Historical {navigate} />
-{:else if opt === "Statistic"}
-  <Statistics {navigate}/>
-{:else if opt === "Forecast"}
-  <Forecast {navigate}/>
+{#if uiState.opt === "Historical"}
+  <Historical {navigate} uiState={uiState} />
+{:else if uiState.opt === "Statistic"}
+  <Statistics {navigate} uiState={uiState}/>
+{:else if uiState.opt === "Forecast"}
+  <Forecast {navigate} uiState={uiState}/>
 {/if}
 
 <style>
