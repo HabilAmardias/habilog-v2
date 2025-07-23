@@ -5,8 +5,8 @@
   import Summary from "./Summary.svelte";
   import { Months } from "../../constant";
   import type { HistoricalUIState } from "./weatherUiState.svelte";
-  import { TimestampToDate } from "./Helper";
-  
+  import { TimestampToDate } from "./helper";
+
   let {navigate, uiState} : {navigate : () => void, uiState: HistoricalUIState} = $props()
 
   $effect(() => {
