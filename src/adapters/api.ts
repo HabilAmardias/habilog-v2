@@ -3,7 +3,7 @@ export interface JSONServerResponse<T> {
     data: T
 }
 
-type RequestBody = string | FormData
+type RequestBody = string | FormData | null
 type HTTPMethod = "GET" | "POST" | "PATCH" | "DELETE"
 interface ServerErrorResponse {
     detail: string

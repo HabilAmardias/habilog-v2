@@ -4,91 +4,39 @@
   import Plot from "./Plot.svelte";
   import Summary from "./Summary.svelte";
   import { Months } from "../../constant";
-
-  function TimestampToDate(time: Date | string) {
-    const date = new Date(time);
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  }
-  let { navigate }: { navigate: () => void } = $props();
-  interface WeatherData {
-    monthly_average_temperature: number;
-    monthly_average_apparent_temperature: number;
-    monthly_average_rain_intensity: number;
-    monthly_average_relative_humidity: number;
-    temperature: Array<number>;
-    apparent_temperature: Array<number>;
-    wind_speed: Array<number>;
-    wind_gusts: Array<number>;
-    time: Array<Date>;
-    rain_sum: Array<number>;
-    relative_humidity: Array<number>;
-  }
-
-  interface GetWeatherResponse {
-    message: string;
-    data: WeatherData;
-  }
-
-  interface TimesOpt {
-    years: Array<number>;
-    months: Array<number>;
-  }
-
-  interface GetTimesOptResponse {
-    message: string;
-    data: TimesOpt;
-  }
-
-  let weatherData = $state<WeatherData | null>(null);
-  let opts = $state<TimesOpt | null>(null);
-  let isError = $state<string>("");
-  let isLoading = $state<boolean>(false);
-  let year = $state<number>(new Date().getFullYear());
-  let month = $state<number>(new Date().getMonth());
+  import type { HistoricalUIState } from "./weatherUiState.svelte";
+  import { TimestampToDate } from "./Helper";
+  
+  let {navigate, uiState} : {navigate : () => void, uiState: HistoricalUIState} = $props()
 
   $effect(() => {
-    const getData = async () => {
-      isLoading = true;
-      const url = `${import.meta.env.VITE_BACKEND_URL}/weather-data?month=${month}&year=${year}`;
-      const optUrl = `${import.meta.env.VITE_BACKEND_URL}/weather-data/times`;
-      const [dataRes, optRes] = await Promise.all([fetch(url), fetch(optUrl)]);
-      if (!dataRes.ok) {
-        const data = await dataRes.json();
-        throw new Error(data.detail);
-      }
-      if (!optRes.ok) {
-        const data = await optRes.json();
-        throw new Error(data.detail);
-      }
-      const [res, opt] = await Promise.all([dataRes.json(), optRes.json()]);
-      return {
-        res: res as GetWeatherResponse,
-        opt: opt as GetTimesOptResponse,
-      };
-    };
-    getData()
-      .then((val) => {
-        weatherData = val.res.data;
-        opts = val.opt.data;
-      })
-      .catch((err: Error) => (isError = err.message))
-      .finally(() => (isLoading = false));
+    uiState.getHistoricalData()
+    .then((val) => {
+      uiState.setWeatherData(val.res.data)
+      uiState.setOption(val.opt.data)
+    })
+    .catch((err : Error) => {
+      uiState.setError(err)
+    })
+    .finally(()=>{
+      uiState.stopLoading()
+    })
   });
 </script>
 
-{#if isLoading}
+{#if uiState.isLoading}
   <Loading />
-{:else if isError}
-  <ErrorPage message={isError} {navigate} />
-{:else if weatherData && opts}
+{:else if uiState.isError}
+  <ErrorPage message={uiState.isError.message} {navigate} />
+{:else if uiState.weatherData && uiState.opts}
   <div class="opts-container">
-    <select class="option-dropdown" bind:value={month} name="month" id="">
-      {#each opts.months as Month}
+    <select class="option-dropdown" bind:value={uiState.month} name="month" id="">
+      {#each uiState.opts.months as Month}
         <option value={Month}>{Months[Month - 1]}</option>
       {/each}
     </select>
-    <select class="option-dropdown" bind:value={year} name="year" id="">
-      {#each opts.years as Year}
+    <select class="option-dropdown" bind:value={uiState.year} name="year" id="">
+      {#each uiState.opts.years as Year}
         <option value={Year}>{Year}</option>
       {/each}
     </select>
@@ -96,28 +44,28 @@
   <div class="summary-container">
     <Summary
       title="Monthly Average Temperature"
-      data={weatherData.monthly_average_temperature}
+      data={uiState.weatherData.monthly_average_temperature}
     />
     <Summary
       title="Monthly Average Apparent Temperature"
-      data={weatherData.monthly_average_apparent_temperature}
+      data={uiState.weatherData.monthly_average_apparent_temperature}
     />
     <Summary
       title="Monthly Average Rain Intensity"
-      data={weatherData.monthly_average_rain_intensity}
+      data={uiState.weatherData.monthly_average_rain_intensity}
     />
     <Summary
       title="Monthly Average Relative Humidity"
-      data={weatherData.monthly_average_relative_humidity}
+      data={uiState.weatherData.monthly_average_relative_humidity}
     />
   </div>
   <div class="charts-container">
     <Plot
       type="line"
       label="temperature"
-      data={$state.snapshot(weatherData.temperature)}
+      data={$state.snapshot(uiState.weatherData.temperature)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
@@ -125,9 +73,9 @@
     <Plot
       type="line"
       label="apparent_temperature"
-      data={$state.snapshot(weatherData.apparent_temperature)}
+      data={$state.snapshot(uiState.weatherData.apparent_temperature)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
@@ -135,9 +83,9 @@
     <Plot
       type="line"
       label="rain_intensity"
-      data={$state.snapshot(weatherData.rain_sum)}
+      data={$state.snapshot(uiState.weatherData.rain_sum)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
@@ -145,9 +93,9 @@
     <Plot
       type="line"
       label="humidity"
-      data={$state.snapshot(weatherData.relative_humidity)}
+      data={$state.snapshot(uiState.weatherData.relative_humidity)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
@@ -155,9 +103,9 @@
     <Plot
       type="line"
       label="wind_gusts"
-      data={$state.snapshot(weatherData.wind_gusts)}
+      data={$state.snapshot(uiState.weatherData.wind_gusts)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
@@ -165,9 +113,9 @@
     <Plot
       type="line"
       label="wind_speed"
-      data={$state.snapshot(weatherData.wind_speed)}
+      data={$state.snapshot(uiState.weatherData.wind_speed)}
       labels={$state
-        .snapshot(weatherData.time)
+        .snapshot(uiState.weatherData.time)
         .map((date) => TimestampToDate(date))}
       lollipop={false}
       color="blue"
