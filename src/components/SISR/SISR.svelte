@@ -1,58 +1,17 @@
 <script lang="ts">
   import Loading from "../Loading.svelte";
   import InlineError from "../InlineError.svelte";
-
-  let files = $state<FileList | null>(null);
-  let isError = $state<string | null>(null);
-  let downloadURL = $state<string | null>(null);
-  let isLoading = $state<boolean>(false);
-
-  $effect(() => {
-    const imgTypes = ["image/png", "image/jpeg", "image/bmp"];
-    if (files === null) {
-      isError = "Please upload a file";
-    } else if (files && !imgTypes.includes(files[0].type)) {
-      isError = "Wrong File Types";
-    } else {
-      isError = null;
-    }
-  });
-
-  async function handleSubmit(
-    e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
-  ) {
-    if (files === null) {
-      throw new Error("There is no file uploaded");
-    }
-    e.preventDefault();
-
-    const file = files[0];
-    const url = `${import.meta.env.VITE_BACKEND_URL}/sisr/upload`;
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.detail);
-    }
-    const blob = await res.blob();
-    const downURL = window.URL.createObjectURL(blob);
-    return downURL;
-  }
+  import { uiState } from "./sisrUiState.svelte";
 </script>
 
-{#if downloadURL}
+{#if uiState.downUrl}
   <div class="download-section">
     <div class="download-container">
-      <img src={downloadURL} alt="upscaled-img" width="100px" height="100px" />
+      <img src={uiState.downUrl} alt="upscaled-img" width="100px" height="100px" />
       <a
         download={`upscaled_img.png`}
-        onclick={() => (downloadURL = null)}
-        href={downloadURL}>Download your upscaled image here</a
+        onclick={uiState.removeURL}
+        href={uiState.downUrl}>Download your upscaled image here</a
       >
     </div>
   </div>
@@ -60,28 +19,20 @@
   <div class="form">
     <form
       onsubmit={(e) => {
-        isLoading = true;
-        handleSubmit(e)
-          .then((val) => {
-            downloadURL = val;
-          })
-          .catch((err: Error) => {
-            console.error(err);
-            isError = err.message;
-          })
-          .finally(() => {
-            isLoading = false;
-          });
+        uiState.handleUpload(e)
+        .then((val) => uiState.setDownUrl(val))
+        .catch((err: Error) => uiState.setIsError(err))
+        .finally(() => uiState.stopLoading())
       }}
       action=""
       method="POST"
     >
       <div class="image-upload-container">
         <label class="label" for="imageFile"
-          >{files ? files[0].name : "Upload your image here"}</label
+          >{uiState.getFileName()}</label
         >
         <input
-          bind:files
+          bind:files={uiState.files}
           type="file"
           name="imageFile"
           id="imageFile"
@@ -89,12 +40,12 @@
           accept=".jpeg, .png, .bmp, .jpg"
         />
       </div>
-      {#if isError}
-        <InlineError message={isError} />
+      {#if uiState.isError}
+        <InlineError message={uiState.isError.message} />
       {/if}
       <div class="button-container">
-        <button disabled={isError || isLoading ? true : false} type="submit">
-          {#if isLoading}
+        <button disabled={uiState.isLoading} type="submit">
+          {#if uiState.isLoading}
             <Loading />
           {:else}
             Upload

@@ -1,71 +1,17 @@
 <script lang="ts">
   import InlineError from "../InlineError.svelte";
   import Loading from "../Loading.svelte";
-
-  interface FAGResponse {
-    message: string;
-    data: { probability: number; age_range: string };
-  }
-
-  let {
-    setResult,
-  }: {
-    setResult: (data: {
-      probability: number;
-      age_range: string;
-      url: string;
-    }) => void;
-  } = $props();
-
-  let files = $state<FileList | null>(null);
-  let isError = $state<string | null>(null);
-  let isLoading = $state<boolean>(false);
-  let downUrl = $state<string>("");
-
-  $effect(() => {
-    const imgTypes = ["image/png", "image/jpeg", "image/bmp"];
-    if (files === null) {
-      isError = "Please upload a file";
-    } else if (files && !imgTypes.includes(files[0].type)) {
-      isError = "Wrong File Types";
-    } else {
-      isError = null;
-    }
-  });
-
-  async function handleUpload(
-    e: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }
-  ) {
-    if (files === null) {
-      throw new Error("There is no file uploaded");
-    }
-    e.preventDefault();
-
-    const file = files[0];
-    downUrl = window.URL.createObjectURL(file);
-    const url = `${import.meta.env.VITE_BACKEND_URL}/fag/upload`;
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.detail);
-    }
-    const response: FAGResponse = await res.json();
-    return response;
-  }
+  import type { FAGUploadState } from "./fagUiState.svelte";
+  let {state} : {state: FAGUploadState} = $props()
+  
 </script>
 
 <div class="image-upload-container">
   <label class="label" for="imageFile"
-    >{files ? files[0].name : "Upload your image here"}</label
+    >{state.getFileName()}</label
   >
   <input
-    bind:files
+    bind:files={state.files}
     type="file"
     name="imageFile"
     id="imageFile"
@@ -73,33 +19,27 @@
     accept=".jpeg, .png, .bmp, .jpg"
   />
 </div>
-{#if isError}
-  <InlineError message={isError} />
+{#if state.isError}
+  <InlineError message={state.isError.message} />
 {/if}
 <div class="button-container">
   <button
     onclick={(e) => {
-      isLoading = true;
-      handleUpload(e)
+      state.handleUploadFile(e)
         .then((val) => {
-          setResult({
-            age_range: val.data.age_range,
-            probability: val.data.probability,
-            url: downUrl,
-          });
+          state.setResult({...val.data, url: state.downUrl})
         })
         .catch((err: Error) => {
-          console.error(err);
-          isError = err.message;
+          state.setIsError(err);
         })
         .finally(() => {
-          isLoading = false;
+          state.stopLoading()
         });
     }}
-    disabled={isError || isLoading ? true : false}
+    disabled={state.isLoading}
     type="button"
   >
-    {#if isLoading}
+    {#if state.isLoading}
       <Loading />
     {:else}
       Upload
