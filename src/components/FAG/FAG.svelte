@@ -23,7 +23,7 @@
     <div class="button-container">
       <button
         type="button"
-        onclick={uiState.removeResult}>Upload other image</button
+        onclick={() => uiState.removeResult()}>Upload other image</button
       >
     </div>
   </section>

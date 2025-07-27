@@ -10,7 +10,7 @@
       <img src={uiState.downUrl} alt="upscaled-img" width="100px" height="100px" />
       <a
         download={`upscaled_img.png`}
-        onclick={uiState.removeURL}
+        onclick={() => uiState.removeURL()}
         href={uiState.downUrl}>Download your upscaled image here</a
       >
     </div>
